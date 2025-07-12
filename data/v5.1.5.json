@@ -1,0 +1,32 @@
+{
+  "release_version": "v5.1.5",
+  "scan_date": "2025-07-15T08:21:42.553991Z",
+  "tool_version": "0.20.1",
+  "total_components": 0,
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2024-49195",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 1,
+    "by_severity": {
+      "CRITICAL": 1,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    }
+  },
+  "metadata": {
+    "scanner": "esp-idf-security-dashboard",
+    "scan_method": "git-tag",
+    "docker_image": null
+  }
+}

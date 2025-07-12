@@ -1,0 +1,8 @@
+{
+  "last_updated": "2025-07-12T10:30:00Z",
+  "scanned_versions": ["v5.4.2", "v5.3.3", "v5.2.5", "v5.0.9"],
+  "failed_versions": [],
+  "total_scanned": 4,
+  "scan_method": "sample_data",
+  "workflow_run": "demo"
+}

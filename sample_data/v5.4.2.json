@@ -1,0 +1,26 @@
+{
+  "release_version": "v5.4.2",
+  "scan_date": "2025-07-12T10:30:00Z",
+  "tool_version": "0.20.1",
+  "total_components": 45,
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2023-2650",
+      "component": "openssl", 
+      "component_version": "1.1.1u",
+      "severity": "MEDIUM",
+      "description": "Issue summary: Processing some specially crafted ASN.1 object identifiers or data containing them may be very slow.",
+      "fixed_versions": ["1.1.1u", "3.0.9", "3.1.1"],
+      "affects_binary": true
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 1,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 1,
+      "LOW": 0
+    }
+  }
+}

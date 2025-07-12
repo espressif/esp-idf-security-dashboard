@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP-IDF Security Vulnerability Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #0052a3);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .critical { color: var(--danger-color); }
+        .high { color: #fd7e14; }
+        .medium { color: var(--warning-color); }
+        .low { color: var(--info-color); }
+
+        /* Tab Styles */
+        .tab-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .tab-navigation {
+            display: flex;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Loading Overlay Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(2px);
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e9ecef;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .loading-status {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            min-height: 24px;
+        }
+
+        .loading-progress {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), #0052a3);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .loading-details {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+
+        .loading-steps {
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .loading-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .loading-step-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .loading-step.pending .loading-step-icon {
+            background: #e9ecef;
+            color: var(--dark-gray);
+        }
+
+        .loading-step.active .loading-step-icon {
+            background: var(--primary-color);
+            color: white;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-step.completed .loading-step-icon {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .loading-step.error .loading-step-icon {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Skeleton Loading for Cards */
+        .skeleton-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .skeleton-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton-number {
+            width: 80px;
+            height: 40px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .skeleton-label {
+            width: 120px;
+            height: 16px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+
+        .skeleton-shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Statistics Tab Styles */
+        .stats-section {
+            padding: 1rem 0;
+        }
+
+        .stats-category {
+            margin-bottom: 3rem;
+        }
+
+        .stats-category h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        select, input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #0052a3;
+        }
+
+        .releases-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .release-item {
+            border-bottom: 1px solid #eee;
+            padding: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .release-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .release-item:last-child {
+            border-bottom: none;
+        }
+
+        .release-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .release-version {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .release-date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .vulnerability-summary {
+            display: flex;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .vuln-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .vuln-badge.critical {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .vuln-badge.high {
+            background: rgba(253, 126, 20, 0.1);
+            color: #fd7e14;
+        }
+
+        .vuln-badge.medium {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .vuln-badge.low {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info-color);
+        }
+
+        .vulnerability-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+
+        .vulnerability-details.show {
+            display: block;
+        }
+
+        .vuln-item {
+            background: #f8f9fa;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .vuln-item.critical {
+            border-left-color: var(--danger-color);
+        }
+
+        .vuln-item.high {
+            border-left-color: #fd7e14;
+        }
+
+        .vuln-item.medium {
+            border-left-color: var(--warning-color);
+        }
+
+        .vuln-item.low {
+            border-left-color: var(--info-color);
+        }
+
+        .vuln-id {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .vuln-component {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .vuln-description {
+            margin-bottom: 0.5rem;
+        }
+
+        .idf-fix-info {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .idf-fix-info .fix-title {
+            font-weight: 600;
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .idf-fix-info .fix-title::before {
+            content: "✅";
+            margin-right: 0.5rem;
+        }
+
+        .idf-fix-versions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .idf-version-badge {
+            background: var(--success-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .idf-version-badge.current {
+            background: var(--primary-color);
+        }
+
+        .no-fix-info {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+
+        .cve-cross-reference {
+            background: #f8f9fa;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .cve-cross-reference h4 {
+            color: var(--info-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .affected-versions {
+            margin-bottom: 0.5rem;
+        }
+
+        .affected-versions span {
+            display: inline-block;
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--dark-gray);
+        }
+
+        .error {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin: 2rem 0;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group {
+                justify-content: space-between;
+            }
+
+            .release-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .vulnerability-summary {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <div class="loading-title">Loading ESP-IDF Security Dashboard</div>
+            <div class="loading-status" id="loadingStatus">Initializing...</div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar" id="loadingProgressBar"></div>
+            </div>
+            <div class="loading-details" id="loadingDetails">Please wait while we load the vulnerability data</div>
+            <div class="loading-steps" id="loadingSteps">
+                <div class="loading-step pending" id="step1">
+                    <div class="loading-step-icon">1</div>
+                    <span>Loading scan summary</span>
+                </div>
+                <div class="loading-step pending" id="step2">
+                    <div class="loading-step-icon">2</div>
+                    <span>Loading vulnerability data</span>
+                </div>
+                <div class="loading-step pending" id="step3">
+                    <div class="loading-step-icon">3</div>
+                    <span>Processing statistics</span>
+                </div>
+                <div class="loading-step pending" id="step4">
+                    <div class="loading-step-icon">4</div>
+                    <span>Rendering dashboard</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <h1>ESP-IDF Security Dashboard</h1>
+            <p>Vulnerability scanning results for ESP-IDF stable releases</p>
+            <p style="margin-top: 0.5rem; opacity: 0.9;">
+                Additional insights into known vulnerabilities can be found in the 
+                <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/vulnerabilities.html" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   style="color: white; text-decoration: underline;">
+                    Vulnerabilities page of the ESP-IDF Programming Guide
+                </a>.
+            </p>
+            <p style="margin-top: 0.5rem; opacity: 0.9;">
+                View the source code at 
+                <a href="https://github.com/espressif/esp-idf-security-dashboard" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   style="color: white; text-decoration: underline;">
+                    GitHub Repository
+                </a>.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard">
+            <!-- Tab Navigation -->
+            <div class="tab-container">
+                <div class="tab-navigation">
+                    <button class="tab-button active" data-tab="releases">Stable Releases</button>
+                    <button class="tab-button" data-tab="branches">Release Branches</button>
+                    <button class="tab-button" data-tab="statistics">Statistics</button>
+                </div>
+            </div>
+
+            <!-- Releases Tab Content -->
+            <div class="tab-content active" id="releases-tab">
+                <div class="controls">
+                <div class="control-group">
+                    <label for="severityFilter">Filter by severity:</label>
+                    <select id="severityFilter">
+                        <option value="all">All Severities</option>
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="versionFilter">Filter by version:</label>
+                    <select id="versionFilter">
+                        <option value="all">All Versions</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <input type="text" id="searchInput" placeholder="Search CVE ID or component...">
+                </div>
+                <button class="btn" onclick="exportData()">Export JSON</button>
+                <button class="btn" onclick="showCVECrossReference()" style="background: var(--info-color);">CVE Cross-Reference</button>
+            </div>
+
+            <div id="cveCrossReference" class="cve-cross-reference" style="display: none;">
+                <h4>CVE Cross-Reference Across ESP-IDF Releases</h4>
+                <div id="cveAnalysisContent">Loading analysis...</div>
+            </div>
+
+            <div class="releases-table">
+                <div class="table-header">
+                    ESP-IDF Release Vulnerability Status
+                </div>
+                <div id="releasesContainer">
+                    <div class="loading">Loading vulnerability data...</div>
+                </div>
+            </div>
+
+                <div class="last-updated" id="lastUpdated">
+                    Last updated: Loading...
+                </div>
+            </div>
+
+            <!-- Release Branches Tab Content -->
+            <div class="tab-content" id="branches-tab">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="branchSeverityFilter">Filter by severity:</label>
+                        <select id="branchSeverityFilter">
+                            <option value="all">All Severities</option>
+                            <option value="critical">Critical</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="branchFilter">Filter by branch:</label>
+                        <select id="branchFilter">
+                            <option value="all">All Branches</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <input type="text" id="branchSearchInput" placeholder="Search CVE ID or component...">
+                    </div>
+                    <button class="btn" onclick="exportBranchData()">Export JSON</button>
+                    <button class="btn" onclick="showBranchCVECrossReference()" style="background: var(--info-color);">CVE Cross-Reference</button>
+                </div>
+
+                <div id="branchCveCrossReference" class="cve-cross-reference" style="display: none;">
+                    <h4>CVE Cross-Reference Across ESP-IDF Release Branches</h4>
+                    <div id="branchCveAnalysisContent">Loading analysis...</div>
+                </div>
+
+                <div class="releases-table">
+                    <div class="table-header">
+                        ESP-IDF Release Branch Vulnerability Status
+                    </div>
+                    <div id="branchesContainer">
+                        <div class="loading">Loading vulnerability data...</div>
+                    </div>
+                </div>
+
+                <div class="last-updated" id="branchesLastUpdated">
+                    Last updated: Loading...
+                </div>
+            </div>
+
+            <!-- Statistics Tab Content -->
+            <div class="tab-content" id="statistics-tab">
+                <div class="stats-section">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Vulnerability Statistics</h3>
+                    
+                    <div class="stats-category">
+                        <h4>Stable Releases</h4>
+                        <div class="stats-grid" id="statsGrid">
+                            <div class="stat-card">
+                                <div class="stat-number critical" id="totalCritical">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Critical</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number high" id="totalHigh">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">High</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number medium" id="totalMedium">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Medium</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number low" id="totalLow">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Low</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalReleases">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Releases Scanned</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-category">
+                        <h4>Release Branches</h4>
+                        <div class="stats-grid" id="branchesStatsGrid">
+                            <div class="stat-card">
+                                <div class="stat-number critical" id="branchesTotalCritical">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Critical</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number high" id="branchesTotalHigh">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">High</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number medium" id="branchesTotalMedium">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Medium</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number low" id="branchesTotalLow">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Low</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalBranches">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Branches Scanned</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-category">
+                        <h4>Overall Summary</h4>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedCritical">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total Critical</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedHigh">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total High</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedMedium">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total Medium</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedLow">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total Low</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedVulns">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total Vulnerabilities</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalCombinedScanned">
+                                    <div class="skeleton-number"><div class="skeleton-shimmer"></div></div>
+                                </div>
+                                <div class="stat-label">Total Scanned</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="last-updated" id="statsLastUpdated">
+                    Last updated: Loading...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dashboardData = {};
+        let allReleases = [];
+        let currentTab = 'releases';
+        let loadingSteps = [
+            { id: 'step1', name: 'Loading scan summary', progress: 10 },
+            { id: 'step2', name: 'Loading vulnerability data', progress: 60 },
+            { id: 'step3', name: 'Processing statistics', progress: 80 },
+            { id: 'step4', name: 'Rendering dashboard', progress: 100 }
+        ];
+        let currentStep = 0;
+
+        // Loading Management Functions
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            updateLoadingStep(0, 'active');
+        }
+
+        function hideLoading() {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 500); // Small delay to show completion
+        }
+
+        function updateLoadingStep(stepIndex, status = 'active') {
+            const step = loadingSteps[stepIndex];
+            if (!step) return;
+
+            // Update previous steps to completed
+            for (let i = 0; i < stepIndex; i++) {
+                const prevStep = document.getElementById(loadingSteps[i].id);
+                prevStep.className = 'loading-step completed';
+                prevStep.querySelector('.loading-step-icon').textContent = '✓';
+            }
+
+            // Update current step
+            const currentStepEl = document.getElementById(step.id);
+            currentStepEl.className = `loading-step ${status}`;
+            
+            if (status === 'completed') {
+                currentStepEl.querySelector('.loading-step-icon').textContent = '✓';
+            } else if (status === 'error') {
+                currentStepEl.querySelector('.loading-step-icon').textContent = '✗';
+            }
+
+            // Update progress bar
+            updateProgressBar(step.progress);
+            
+            // Update status text
+            document.getElementById('loadingStatus').textContent = step.name;
+            
+            currentStep = stepIndex;
+        }
+
+        function updateProgressBar(percentage) {
+            const progressBar = document.getElementById('loadingProgressBar');
+            progressBar.style.width = percentage + '%';
+        }
+
+        function updateLoadingDetails(text, filesLoaded = 0, totalFiles = 0) {
+            const details = document.getElementById('loadingDetails');
+            if (totalFiles > 0) {
+                details.textContent = `${text} (${filesLoaded}/${totalFiles} files loaded)`;
+            } else {
+                details.textContent = text;
+            }
+        }
+
+        function showLoadingError(stepIndex, errorMessage) {
+            updateLoadingStep(stepIndex, 'error');
+            document.getElementById('loadingStatus').textContent = 'Loading failed';
+            document.getElementById('loadingDetails').textContent = errorMessage;
+            
+            // Show retry option after a delay
+            setTimeout(() => {
+                const details = document.getElementById('loadingDetails');
+                details.innerHTML = `${errorMessage}<br><button onclick="retryLoading()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Retry Loading</button>`;
+            }, 2000);
+        }
+
+        function retryLoading() {
+            // Reset all steps
+            loadingSteps.forEach((step, index) => {
+                const stepEl = document.getElementById(step.id);
+                stepEl.className = 'loading-step pending';
+                stepEl.querySelector('.loading-step-icon').textContent = index + 1;
+            });
+            
+            updateProgressBar(0);
+            currentStep = 0;
+            
+            // Restart loading
+            loadDashboardData();
+        }
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            currentTab = tabName;
+            
+            // Refresh data for the new tab
+            if (Object.keys(dashboardData).length > 0) {
+                if (tabName === 'releases') {
+                    updateDashboard();
+                } else if (tabName === 'branches') {
+                    updateBranchesDashboard();
+                } else if (tabName === 'statistics') {
+                    updateStatisticsDashboard();
+                }
+            }
+        }
+
+        // Initialize tab event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+        });
+
+        async function loadDashboardData() {
+            try {
+                // Show loading overlay
+                showLoading();
+                updateLoadingDetails('Connecting to data source...');
+                
+                // Step 1: Load scan summary
+                updateLoadingStep(0, 'active');
+                let summaryResponse;
+                let dataPath = './data/';
+                
+                try {
+                    summaryResponse = await fetch('./data/scan_summary.json');
+                    if (!summaryResponse.ok) throw new Error('Real data not found');
+                    updateLoadingDetails('Found real vulnerability data');
+                } catch (error) {
+                    console.log('Real data not available, using sample data');
+                    updateLoadingDetails('Loading sample vulnerability data');
+                    summaryResponse = await fetch('./sample_data/scan_summary.json');
+                    dataPath = './sample_data/';
+                }
+                
+                const summary = await summaryResponse.json();
+                updateLoadingStep(0, 'completed');
+                
+                // Step 2: Load individual release data
+                updateLoadingStep(1, 'active');
+                const releases = {};
+                const branches = {};
+                const totalVersions = summary.scanned_versions.length;
+                let loadedVersions = 0;
+                
+                updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
+                
+                for (const version of summary.scanned_versions) {
+                    try {
+                        // Convert file path: replace 'release/' with 'release_' for file names
+                        const fileName = version.replace('release/', 'release_');
+                        const response = await fetch(`${dataPath}${fileName}.json`);
+                        const data = await response.json();
+                        
+                        // Separate releases from release branches
+                        if (version.startsWith('release_') || version.startsWith('release/')) {
+                            branches[version] = data;
+                        } else {
+                            releases[version] = data;
+                        }
+                        
+                        loadedVersions++;
+                        updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
+                        
+                        // Update progress incrementally
+                        const fileProgress = 10 + (loadedVersions / totalVersions) * 50; // 10% to 60%
+                        updateProgressBar(fileProgress);
+                    } catch (error) {
+                        console.warn(`Failed to load data for ${version}:`, error);
+                        loadedVersions++;
+                        updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
+                    }
+                }
+                
+                updateLoadingStep(1, 'completed');
+                
+                // Step 3: Process statistics
+                updateLoadingStep(2, 'active');
+                updateLoadingDetails('Calculating vulnerability statistics...');
+                
+                dashboardData = {
+                    summary,
+                    releases,
+                    branches
+                };
+                
+                // Small delay to show processing step
+                await new Promise(resolve => setTimeout(resolve, 300));
+                updateLoadingStep(2, 'completed');
+                
+                // Step 4: Render dashboard
+                updateLoadingStep(3, 'active');
+                updateLoadingDetails('Rendering dashboard components...');
+                
+                updateDashboard();
+                updateBranchesDashboard();
+                updateStatisticsDashboard();
+                
+                // Complete loading
+                updateLoadingStep(3, 'completed');
+                updateLoadingDetails('Dashboard loaded successfully!');
+                
+                // Hide loading overlay
+                setTimeout(() => hideLoading(), 500);
+                
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+                showLoadingError(currentStep, `Failed to load dashboard data: ${error.message}`);
+                document.getElementById('releasesContainer').innerHTML = 
+                    '<div class="error">Failed to load vulnerability data. Please check if the scan data is available.</div>';
+            }
+        }
+
+        function updateDashboard() {
+            updateStats();
+            updateVersionFilter();
+            updateReleasesDisplay();
+            updateLastUpdated();
+            analyzeCVEsAcrossReleases();
+        }
+
+        function updateBranchesDashboard() {
+            updateBranchStats();
+            updateBranchFilter();
+            updateBranchesDisplay();
+            updateBranchesLastUpdated();
+            analyzeCVEsAcrossBranches();
+        }
+
+        function updateStatisticsDashboard() {
+            updateStats();
+            updateBranchStats();
+            updateCombinedStats();
+            updateStatsLastUpdated();
+        }
+
+        function updateStats() {
+            const stats = calculateStats();
+            
+            // Replace skeleton loaders with actual numbers
+            const criticalEl = document.getElementById('totalCritical');
+            const highEl = document.getElementById('totalHigh');
+            const mediumEl = document.getElementById('totalMedium');
+            const lowEl = document.getElementById('totalLow');
+            const releasesEl = document.getElementById('totalReleases');
+            
+            criticalEl.innerHTML = stats.critical;
+            highEl.innerHTML = stats.high;
+            mediumEl.innerHTML = stats.medium;
+            lowEl.innerHTML = stats.low;
+            releasesEl.innerHTML = stats.totalReleases;
+        }
+
+        function calculateStats() {
+            const stats = { critical: 0, high: 0, medium: 0, low: 0, totalReleases: 0 };
+            
+            for (const [version, data] of Object.entries(dashboardData.releases)) {
+                stats.totalReleases++;
+                if (data.summary && data.summary.by_severity) {
+                    stats.critical += data.summary.by_severity.CRITICAL || 0;
+                    stats.high += data.summary.by_severity.HIGH || 0;
+                    stats.medium += data.summary.by_severity.MEDIUM || 0;
+                    stats.low += data.summary.by_severity.LOW || 0;
+                }
+            }
+            
+            return stats;
+        }
+
+        function updateBranchStats() {
+            const stats = calculateBranchStats();
+            
+            // Replace skeleton loaders with actual numbers
+            const criticalEl = document.getElementById('branchesTotalCritical');
+            const highEl = document.getElementById('branchesTotalHigh');
+            const mediumEl = document.getElementById('branchesTotalMedium');
+            const lowEl = document.getElementById('branchesTotalLow');
+            const branchesEl = document.getElementById('totalBranches');
+            
+            criticalEl.innerHTML = stats.critical;
+            highEl.innerHTML = stats.high;
+            mediumEl.innerHTML = stats.medium;
+            lowEl.innerHTML = stats.low;
+            branchesEl.innerHTML = stats.totalBranches;
+        }
+
+        function calculateBranchStats() {
+            const stats = { critical: 0, high: 0, medium: 0, low: 0, totalBranches: 0 };
+            
+            for (const [version, data] of Object.entries(dashboardData.branches || {})) {
+                stats.totalBranches++;
+                if (data.summary && data.summary.by_severity) {
+                    stats.critical += data.summary.by_severity.CRITICAL || 0;
+                    stats.high += data.summary.by_severity.HIGH || 0;
+                    stats.medium += data.summary.by_severity.MEDIUM || 0;
+                    stats.low += data.summary.by_severity.LOW || 0;
+                }
+            }
+            
+            return stats;
+        }
+
+        function updateCombinedStats() {
+            const releaseStats = calculateStats();
+            const branchStats = calculateBranchStats();
+            
+            // Calculate combined totals
+            const combinedCritical = releaseStats.critical + branchStats.critical;
+            const combinedHigh = releaseStats.high + branchStats.high;
+            const combinedMedium = releaseStats.medium + branchStats.medium;
+            const combinedLow = releaseStats.low + branchStats.low;
+            const combinedVulns = combinedCritical + combinedHigh + combinedMedium + combinedLow;
+            const combinedScanned = releaseStats.totalReleases + branchStats.totalBranches;
+            
+            // Update combined statistics elements
+            document.getElementById('totalCombinedCritical').innerHTML = combinedCritical;
+            document.getElementById('totalCombinedHigh').innerHTML = combinedHigh;
+            document.getElementById('totalCombinedMedium').innerHTML = combinedMedium;
+            document.getElementById('totalCombinedLow').innerHTML = combinedLow;
+            document.getElementById('totalCombinedVulns').innerHTML = combinedVulns;
+            document.getElementById('totalCombinedScanned').innerHTML = combinedScanned;
+        }
+
+        function updateStatsLastUpdated() {
+            if (dashboardData.summary && dashboardData.summary.last_updated) {
+                const lastUpdated = new Date(dashboardData.summary.last_updated).toLocaleString();
+                document.getElementById('statsLastUpdated').textContent = `Last updated: ${lastUpdated}`;
+            }
+        }
+
+        function updateVersionFilter() {
+            const select = document.getElementById('versionFilter');
+            const versions = Object.keys(dashboardData.releases).sort((a, b) => {
+                return compareVersions(b, a); // Sort in descending order
+            });
+            
+            // Clear existing options except "All Versions"
+            select.innerHTML = '<option value="all">All Versions</option>';
+            
+            versions.forEach(version => {
+                const option = document.createElement('option');
+                option.value = version;
+                option.textContent = version;
+                select.appendChild(option);
+            });
+        }
+
+        function updateBranchFilter() {
+            const select = document.getElementById('branchFilter');
+            const branches = Object.keys(dashboardData.branches || {}).sort();
+            
+            // Clear existing options except "All Branches"
+            select.innerHTML = '<option value="all">All Branches</option>';
+            
+            branches.forEach(branch => {
+                const option = document.createElement('option');
+                option.value = branch;
+                option.textContent = branch;
+                select.appendChild(option);
+            });
+        }
+
+        function compareVersions(a, b) {
+            const parseVersion = (v) => v.replace('v', '').split('.').map(Number);
+            const versionA = parseVersion(a);
+            const versionB = parseVersion(b);
+            
+            for (let i = 0; i < Math.max(versionA.length, versionB.length); i++) {
+                const numA = versionA[i] || 0;
+                const numB = versionB[i] || 0;
+                if (numA !== numB) return numA - numB;
+            }
+            return 0;
+        }
+
+        function updateReleasesDisplay() {
+            const container = document.getElementById('releasesContainer');
+            const severityFilter = document.getElementById('severityFilter').value;
+            const versionFilter = document.getElementById('versionFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let releases = Object.entries(dashboardData.releases);
+            
+            // Apply filters
+            if (versionFilter !== 'all') {
+                releases = releases.filter(([version, data]) => version === versionFilter);
+            }
+            
+            // Sort by version (newest first)
+            releases.sort(([a], [b]) => compareVersions(b, a));
+            
+            const releasesHtml = releases.map(([version, data]) => {
+                const filteredVulns = filterVulnerabilities(data.vulnerabilities || [], severityFilter, searchTerm);
+                
+                if (searchTerm && filteredVulns.length === 0) {
+                    return '';
+                }
+                
+                return generateReleaseHtml(version, data, filteredVulns);
+            }).filter(html => html).join('');
+            
+            container.innerHTML = releasesHtml || '<div class="loading">No releases match the current filters.</div>';
+        }
+
+        function filterVulnerabilities(vulnerabilities, severityFilter, searchTerm) {
+            return vulnerabilities.filter(vuln => {
+                const severityMatch = severityFilter === 'all' || 
+                    (vuln.severity || '').toLowerCase() === severityFilter;
+                
+                const searchMatch = !searchTerm || 
+                    (vuln.cve_id || '').toLowerCase().includes(searchTerm) ||
+                    (vuln.component || '').toLowerCase().includes(searchTerm) ||
+                    (vuln.description || '').toLowerCase().includes(searchTerm);
+                
+                return severityMatch && searchMatch;
+            });
+        }
+
+        function generateReleaseHtml(version, data, vulnerabilities) {
+            const summary = data.summary || {};
+            const severity = summary.by_severity || {};
+            const scanDate = new Date(data.scan_date).toLocaleDateString();
+            
+            const vulnSummaryHtml = [
+                severity.CRITICAL && `<span class="vuln-badge critical">Critical: ${severity.CRITICAL}</span>`,
+                severity.HIGH && `<span class="vuln-badge high">High: ${severity.HIGH}</span>`,
+                severity.MEDIUM && `<span class="vuln-badge medium">Medium: ${severity.MEDIUM}</span>`,
+                severity.LOW && `<span class="vuln-badge low">Low: ${severity.LOW}</span>`
+            ].filter(Boolean).join('');
+            
+            const vulnerabilityDetailsHtml = vulnerabilities.map(vuln => {
+                const severityClass = (vuln.severity || 'unknown').toLowerCase();
+                const idfFixInfo = getIDFFixInfo(vuln.cve_id, version);
+                
+                return `
+                    <div class="vuln-item ${severityClass}">
+                        <div class="vuln-id">${vuln.cve_id || 'Unknown CVE'}</div>
+                        <div class="vuln-component">Component: ${vuln.component || 'Unknown'} ${vuln.component_version || ''}</div>
+                        <div class="vuln-description">${vuln.description || 'No description available'}</div>
+                        ${vuln.fixed_versions ? `<div class="vuln-component">Component fixed in: ${vuln.fixed_versions.join(', ')}</div>` : ''}
+                        ${idfFixInfo}
+                    </div>
+                `;
+            }).join('');
+            
+            return `
+                <div class="release-item">
+                    <div class="release-header">
+                        <div>
+                            <div class="release-version">${version}</div>
+                            <div class="release-date">Scanned: ${scanDate}</div>
+                        </div>
+                        <div>
+                            <span style="color: var(--dark-gray); font-size: 0.9rem;">
+                                ${data.total_components || 0} components
+                            </span>
+                        </div>
+                    </div>
+                    <div class="vulnerability-summary">
+                        ${vulnSummaryHtml || '<span class="vuln-badge" style="background: rgba(40, 167, 69, 0.1); color: var(--success-color);">No vulnerabilities</span>'}
+                        ${vulnerabilities.length > 0 ? `<button class="toggle-btn" onclick="toggleDetails('${version}')">Show Details</button>` : ''}
+                    </div>
+                    <div class="vulnerability-details" id="details-${version}">
+                        ${vulnerabilityDetailsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleDetails(version) {
+            const details = document.getElementById(`details-${version}`);
+            const button = event.target;
+            
+            if (details.classList.contains('show')) {
+                details.classList.remove('show');
+                button.textContent = 'Show Details';
+            } else {
+                details.classList.add('show');
+                button.textContent = 'Hide Details';
+            }
+        }
+
+        function updateLastUpdated() {
+            if (dashboardData.summary && dashboardData.summary.last_updated) {
+                const lastUpdated = new Date(dashboardData.summary.last_updated).toLocaleString();
+                document.getElementById('lastUpdated').textContent = `Last updated: ${lastUpdated}`;
+            }
+        }
+
+        function updateBranchesDisplay() {
+            const container = document.getElementById('branchesContainer');
+            const severityFilter = document.getElementById('branchSeverityFilter').value;
+            const branchFilter = document.getElementById('branchFilter').value;
+            const searchTerm = document.getElementById('branchSearchInput').value.toLowerCase();
+            
+            if (!dashboardData.branches) {
+                container.innerHTML = '<div class="loading">No branch data available.</div>';
+                return;
+            }
+            
+            let branches = Object.entries(dashboardData.branches);
+            
+            // Apply branch filter
+            if (branchFilter !== 'all') {
+                branches = branches.filter(([version, data]) => version === branchFilter);
+            }
+            
+            branches.sort(([a], [b]) => a.localeCompare(b));
+            
+            const branchesHtml = branches.map(([version, data]) => {
+                const vulnerabilities = data.vulnerabilities || [];
+                
+                // Apply severity and search filters
+                const filteredVulnerabilities = vulnerabilities.filter(vuln => {
+                    if (severityFilter !== 'all' && vuln.severity !== severityFilter.toUpperCase()) {
+                        return false;
+                    }
+                    if (searchTerm && !vuln.cve_id.toLowerCase().includes(searchTerm) && 
+                        !vuln.component.toLowerCase().includes(searchTerm)) {
+                        return false;
+                    }
+                    return true;
+                });
+                
+                if (filteredVulnerabilities.length === 0 && (severityFilter !== 'all' || searchTerm)) {
+                    return ''; // Don't show branches with no matching vulnerabilities
+                }
+                
+                return generateReleaseHtml(version, data, filteredVulnerabilities);
+            }).filter(html => html).join('');
+            
+            container.innerHTML = branchesHtml || '<div class="loading">No branches match the current filters.</div>';
+        }
+
+        function updateBranchesLastUpdated() {
+            if (dashboardData.summary && dashboardData.summary.last_updated) {
+                const lastUpdated = new Date(dashboardData.summary.last_updated).toLocaleString();
+                document.getElementById('branchesLastUpdated').textContent = `Last updated: ${lastUpdated}`;
+            }
+        }
+
+        function analyzeCVEsAcrossBranches() {
+            const cveMap = new Map();
+            
+            // Collect all CVEs across all branches
+            for (const [version, data] of Object.entries(dashboardData.branches || {})) {
+                const vulnerabilities = data.vulnerabilities || [];
+                vulnerabilities.forEach(vuln => {
+                    const cveId = vuln.cve_id;
+                    if (!cveMap.has(cveId)) {
+                        cveMap.set(cveId, { 
+                            vulnerability: vuln, 
+                            affectedVersions: [] 
+                        });
+                    }
+                    cveMap.get(cveId).affectedVersions.push(version);
+                });
+            }
+            
+            // Generate cross-reference content similar to releases
+            const content = document.getElementById('branchCveAnalysisContent');
+            const allVersions = Object.keys(dashboardData.branches || {}).sort();
+            
+            if (cveMap.size === 0) {
+                content.innerHTML = '<p>No CVE data available for branch analysis.</p>';
+                return;
+            }
+            
+            let html = `
+                <div class="cve-analysis-summary">
+                    <p><strong>Branch CVE Analysis:</strong></p>
+                    <p>This analysis shows which ESP-IDF release branches contain each CVE.</p>
+                    <p><strong>Total CVEs found:</strong> ${cveMap.size}</p>
+                    <p><strong>Total branches scanned:</strong> ${allVersions.length}</p>
+                </div>
+                <div class="cve-list">
+            `;
+            
+            const sortedCVEs = Array.from(cveMap.entries()).sort(([a], [b]) => a.localeCompare(b));
+            
+            for (const [cveId, data] of sortedCVEs) {
+                const vuln = data.vulnerability;
+                const affectedCount = data.affectedVersions.length;
+                const isInAllBranches = affectedCount === allVersions.length;
+                
+                html += `
+                    <div class="cve-cross-ref-item">
+                        <h5>${cveId} 
+                            <span class="severity-badge ${(vuln.severity || 'unknown').toLowerCase()}">
+                                ${vuln.severity || 'Unknown'}
+                            </span>
+                        </h5>
+                        <p><strong>Component:</strong> ${vuln.component || 'Unknown'} ${vuln.component_version || ''}</p>
+                        <p><strong>Description:</strong> ${vuln.description || 'No description available'}</p>
+                        <p><strong>Affected branches (${affectedCount}/${allVersions.length}):</strong> 
+                            ${data.affectedVersions.join(', ')}
+                            ${isInAllBranches ? '<span style="color: var(--warning-color);"> ⚠️ Present in all scanned branches</span>' : ''}
+                        </p>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        function analyzeCVEsAcrossReleases() {
+            const cveMap = new Map();
+            
+            // Collect all CVEs across all releases
+            for (const [version, data] of Object.entries(dashboardData.releases)) {
+                const vulnerabilities = data.vulnerabilities || [];
+                
+                vulnerabilities.forEach(vuln => {
+                    const cveId = vuln.cve_id;
+                    if (!cveId) return;
+                    
+                    if (!cveMap.has(cveId)) {
+                        cveMap.set(cveId, {
+                            component: vuln.component,
+                            severity: vuln.severity,
+                            description: vuln.description,
+                            affectedVersions: [],
+                            fixedVersions: vuln.fixed_versions || [],
+                            firstSeenIn: version,
+                            lastSeenIn: version
+                        });
+                    }
+                    
+                    const cveData = cveMap.get(cveId);
+                    cveData.affectedVersions.push(version);
+                    
+                    // Update first/last seen based on version comparison
+                    if (compareVersions(version, cveData.firstSeenIn) < 0) {
+                        cveData.firstSeenIn = version;
+                    }
+                    if (compareVersions(version, cveData.lastSeenIn) > 0) {
+                        cveData.lastSeenIn = version;
+                    }
+                });
+            }
+            
+            // Store for use by other functions
+            window.cveAnalysis = cveMap;
+        }
+
+        function getIDFFixInfo(cveId, currentVersion) {
+            if (!window.cveAnalysis || !cveId) {
+                return '<div class="no-fix-info">CVE fix information not available</div>';
+            }
+            
+            const cveData = window.cveAnalysis.get(cveId);
+            if (!cveData) {
+                return '<div class="no-fix-info">CVE not found in analysis</div>';
+            }
+            
+            // Find ESP-IDF versions where this CVE is NOT present (i.e., fixed)
+            const allVersions = Object.keys(dashboardData.releases).sort((a, b) => compareVersions(a, b));
+            const affectedVersions = cveData.affectedVersions;
+            const fixedInVersions = allVersions.filter(version => !affectedVersions.includes(version));
+            
+            if (fixedInVersions.length === 0) {
+                return `
+                    <div class="no-fix-info">
+                        ⚠️ CVE ${cveId} appears to be present in all scanned ESP-IDF releases. 
+                        Consider updating component to version: ${cveData.fixedVersions.join(', ') || 'Check component documentation'}
+                    </div>
+                `;
+            }
+            
+            // Find the earliest ESP-IDF version where this CVE is fixed
+            const earliestFix = fixedInVersions.sort((a, b) => compareVersions(a, b))[0];
+            const isCurrentVersionFixed = fixedInVersions.includes(currentVersion);
+            
+            const fixedBadges = fixedInVersions
+                .sort((a, b) => compareVersions(b, a)) // Sort newest first for display
+                .slice(0, 5) // Show max 5 versions
+                .map(version => {
+                    const isCurrentBadge = version === currentVersion ? ' current' : '';
+                    return `<span class="idf-version-badge${isCurrentBadge}">${version}</span>`;
+                })
+                .join('');
+                
+            if (isCurrentVersionFixed) {
+                return `
+                    <div class="idf-fix-info">
+                        <div class="fix-title">CVE Fixed in Current ESP-IDF Release</div>
+                        <div>This vulnerability has been resolved in ESP-IDF ${currentVersion}</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--dark-gray);">
+                            Fixed in following ESP-IDF versions: ${fixedBadges}
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="idf-fix-info" style="background: rgba(255, 193, 7, 0.1); border-color: rgba(255, 193, 7, 0.3);">
+                        <div class="fix-title" style="color: #856404;">
+                            🔄 Migrate to Fixed ESP-IDF Release
+                        </div>
+                        <div class="idf-fix-versions" style="margin-top: 0.5rem;">
+                            Fixed in following ESP-IDF versions: ${fixedBadges}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function showCVECrossReference() {
+            const container = document.getElementById('cveCrossReference');
+            const content = document.getElementById('cveAnalysisContent');
+            
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                generateCVECrossReferenceContent();
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function generateCVECrossReferenceContent() {
+            if (!window.cveAnalysis) {
+                document.getElementById('cveAnalysisContent').innerHTML = 'CVE analysis not available';
+                return;
+            }
+            
+            const cveList = Array.from(window.cveAnalysis.entries())
+                .sort(([a, dataA], [b, dataB]) => {
+                    // Sort by severity first, then by CVE ID
+                    const severityOrder = { 'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
+                    const severityDiff = (severityOrder[dataB.severity] || 0) - (severityOrder[dataA.severity] || 0);
+                    return severityDiff !== 0 ? severityDiff : a.localeCompare(b);
+                });
+            
+            const allVersions = Object.keys(dashboardData.releases).sort((a, b) => compareVersions(a, b));
+            
+            const crossRefHtml = `
+                <div style="margin-bottom: 1rem; color: var(--dark-gray);">
+                    This analysis shows which ESP-IDF releases contain each CVE and which releases have fixes.
+                    Use this information to plan migrations and understand security improvements across versions.
+                </div>
+                
+                ${cveList.map(([cveId, cveData]) => {
+                    const affectedVersions = cveData.affectedVersions.sort((a, b) => compareVersions(a, b));
+                    const fixedVersions = allVersions.filter(v => !affectedVersions.includes(v));
+                    const severityClass = (cveData.severity || 'unknown').toLowerCase();
+                    
+                    return `
+                        <div class="vuln-item ${severityClass}" style="margin-bottom: 1rem;">
+                            <div class="vuln-id">${cveId}</div>
+                            <div class="vuln-component">Component: ${cveData.component || 'Unknown'}</div>
+                            <div class="vuln-description" style="margin-bottom: 1rem;">${cveData.description || 'No description'}</div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div>
+                                    <strong style="color: var(--danger-color);">Affected ESP-IDF Releases:</strong>
+                                    <div class="affected-versions" style="margin-top: 0.5rem;">
+                                        ${affectedVersions.length > 0 
+                                            ? affectedVersions.map(v => `<span>${v}</span>`).join(' ')
+                                            : '<span style="color: var(--success-color);">None</span>'
+                                        }
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <strong style="color: var(--success-color);">Fixed in ESP-IDF Releases:</strong>
+                                    <div style="margin-top: 0.5rem;">
+                                        ${fixedVersions.length > 0 
+                                            ? fixedVersions.map(v => `<span class="idf-version-badge">${v}</span>`).join(' ')
+                                            : '<span style="color: var(--danger-color);">Not fixed in scanned releases</span>'
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            ${cveData.fixedVersions.length > 0 ? `
+                                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #eee;">
+                                    <strong>Component fix available in:</strong> ${cveData.fixedVersions.join(', ')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('')}
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; font-size: 0.9rem; color: var(--dark-gray);">
+                    <strong>Legend:</strong><br>
+                    • <span style="color: var(--danger-color);">Affected Releases</span>: ESP-IDF versions where the CVE is present<br>
+                    • <span style="color: var(--success-color);">Fixed Releases</span>: ESP-IDF versions where the CVE has been resolved<br>
+                    • Component fixes refer to the specific library version that resolves the CVE
+                </div>
+            `;
+            
+            document.getElementById('cveAnalysisContent').innerHTML = crossRefHtml;
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(dashboardData.releases, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'esp-idf-vulnerability-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportBranchData() {
+            const dataStr = JSON.stringify(dashboardData.branches, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'esp-idf-branch-vulnerability-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showCVECrossReference() {
+            const element = document.getElementById('cveCrossReference');
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                
+                // Show loading notification
+                const content = document.getElementById('cveAnalysisContent');
+                content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--dark-gray);"><div style="margin-bottom: 1rem;">🔄 Analyzing CVEs across ESP-IDF releases...</div><div style="font-size: 0.9rem;">This may take a few moments</div></div>';
+                
+                // Add small delay to show loading message
+                setTimeout(() => {
+                    analyzeCVEsAcrossReleases();
+                }, 100);
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function showBranchCVECrossReference() {
+            const element = document.getElementById('branchCveCrossReference');
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                
+                // Show loading notification
+                const content = document.getElementById('branchCveAnalysisContent');
+                content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--dark-gray);"><div style="margin-bottom: 1rem;">🔄 Analyzing CVEs across ESP-IDF release branches...</div><div style="font-size: 0.9rem;">This may take a few moments</div></div>';
+                
+                // Add small delay to show loading message
+                setTimeout(() => {
+                    analyzeCVEsAcrossBranches();
+                }, 100);
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        // Event listeners for releases tab
+        document.getElementById('severityFilter').addEventListener('change', updateReleasesDisplay);
+        document.getElementById('versionFilter').addEventListener('change', updateReleasesDisplay);
+        document.getElementById('searchInput').addEventListener('input', updateReleasesDisplay);
+
+        // Event listeners for branches tab
+        document.getElementById('branchSeverityFilter').addEventListener('change', updateBranchesDisplay);
+        document.getElementById('branchFilter').addEventListener('change', updateBranchesDisplay);
+        document.getElementById('branchSearchInput').addEventListener('input', updateBranchesDisplay);
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+    </script>
+</body>
+</html>

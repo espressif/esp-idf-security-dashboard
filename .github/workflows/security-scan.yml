@@ -1,0 +1,494 @@
+name: ESP-IDF Security Vulnerability Scan
+
+on:
+  # Daily automated scans
+  schedule:
+    - cron: '0 0 * * *'  # Daily at 00:00 UTC
+  
+  # Manual trigger with optimized options
+  workflow_dispatch:
+    inputs:
+      scan_mode:
+        description: 'Scanning mode'
+        required: true
+        default: 'git-only'
+        type: choice
+        options:
+          - 'git-only'                 # Pure git scanning (most consistent, avoids disk space issues)
+          - 'unified-all-v5'           # Most comprehensive - all v5.x tags and branches  
+          - 'unified-recent'           # Recent stable releases + release branches
+          - 'docker-only'              # Traditional Docker-based scanning (may fail on disk space)
+      
+      custom_versions:
+        description: 'Custom versions to scan (comma-separated, optional)'
+        required: false
+        type: string
+        
+      include_branches:
+        description: 'Include latest development branches (master, develop)'
+        required: false
+        default: false
+        type: boolean
+        
+      force_full_scan:
+        description: 'Force scan even if recent data exists'
+        required: false
+        default: false
+        type: boolean
+
+  # Trigger on code changes
+  push:
+    branches: [ main ]
+    paths: [ 'scan_releases.py', '.github/workflows/**' ]
+
+  pull_request:
+    branches: [ main ]
+    paths: [ 'scan_releases.py', '.github/workflows/**' ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
+env:
+  PYTHON_VERSION: '3.11'
+  OUTPUT_DIR: 'data'
+
+jobs:
+  # Single unified scanning job - maximum efficiency
+  unified-security-scan:
+    name: 'Unified ESP-IDF Security Scan'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+          # Verify installation
+          python --version
+          git --version
+          echo "ESP-IDF SBOM tool installed successfully"
+      
+      - name: Configure scan parameters
+        id: config
+        run: |
+          # Determine scan mode and parameters
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            SCAN_MODE="${{ github.event.inputs.scan_mode }}"
+            CUSTOM_VERSIONS="${{ github.event.inputs.custom_versions }}"
+            INCLUDE_BRANCHES="${{ github.event.inputs.include_branches }}"
+            FORCE_SCAN="${{ github.event.inputs.force_full_scan }}"
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            SCAN_MODE="git-only"
+            CUSTOM_VERSIONS=""
+            INCLUDE_BRANCHES="false"
+            FORCE_SCAN="false"
+          else
+            # Push/PR - quick scan for testing
+            SCAN_MODE="git-only"
+            CUSTOM_VERSIONS=""
+            INCLUDE_BRANCHES="false"
+            FORCE_SCAN="true"
+          fi
+          
+          echo "scan_mode=$SCAN_MODE" >> $GITHUB_OUTPUT
+          echo "custom_versions=$CUSTOM_VERSIONS" >> $GITHUB_OUTPUT
+          echo "include_branches=$INCLUDE_BRANCHES" >> $GITHUB_OUTPUT
+          echo "force_scan=$FORCE_SCAN" >> $GITHUB_OUTPUT
+          
+          echo "🔧 Scan Configuration:"
+          echo "  Mode: $SCAN_MODE"
+          echo "  Custom versions: $CUSTOM_VERSIONS"
+          echo "  Include branches: $INCLUDE_BRANCHES"
+          echo "  Force scan: $FORCE_SCAN"
+          echo "  Event: ${{ github.event_name }}"
+      
+      - name: Check for existing recent data
+        id: cache_check
+        if: steps.config.outputs.force_scan != 'true'
+        run: |
+          CACHE_VALID="false"
+          
+          # Check if we have recent scan data (less than 8 hours old for scheduled runs)
+          if [[ -f "${{ env.OUTPUT_DIR }}/scan_summary.json" ]]; then
+            LAST_SCAN=$(python -c "import json, datetime, sys; exec(\"try:\n  f = open('${{ env.OUTPUT_DIR }}/scan_summary.json', 'r'); data = json.load(f); f.close()\n  last_updated = datetime.datetime.fromisoformat(data['last_updated'].replace('Z', '+00:00'))\n  age_hours = (datetime.datetime.now(datetime.timezone.utc) - last_updated).total_seconds() / 3600\n  print(f'{age_hours:.1f}')\nexcept Exception as e:\n  print('999')\")")
+            
+            # For scheduled runs, allow 8-hour cache; for manual runs, check force flag
+            CACHE_THRESHOLD=8
+            if python -c "exit(0 if float('$LAST_SCAN') < $CACHE_THRESHOLD else 1)"; then
+              CACHE_VALID="true"
+              echo "✅ Recent scan data found (${LAST_SCAN}h old), skipping scan"
+            else
+              echo "🔄 Scan data is stale (${LAST_SCAN}h old), proceeding with scan"
+            fi
+          else
+            echo "🆕 No existing scan data found"
+          fi
+          
+          echo "cache_valid=$CACHE_VALID" >> $GITHUB_OUTPUT
+      
+      - name: Run optimized unified security scan
+        if: steps.cache_check.outputs.cache_valid != 'true'
+        run: |
+          # Create output directory
+          mkdir -p ${{ env.OUTPUT_DIR }}
+          
+          # Build scan command based on selected mode
+          case "${{ steps.config.outputs.scan_mode }}" in
+            "unified-all-v5")
+              # Ultimate efficiency: Single clone for ALL v5.x targets
+              SCAN_CMD="python scan_releases.py --scan-all-v5 --unified-mode --output-dir ${{ env.OUTPUT_DIR }}"
+              echo "🚀 Using ultimate unified mode: scanning ALL v5.x releases and branches in single clone"
+              ;;
+            "unified-recent")
+              # Recent releases + release branches in unified mode
+              SCAN_CMD="python scan_releases.py --versions v5.4.2,v5.3.3,v5.2.5,v5.1.6,v5.0.9 --include-release-branches --unified-mode --output-dir ${{ env.OUTPUT_DIR }}"
+              echo "🔄 Using unified mode for recent releases and all release branches"
+              ;;
+            "docker-only")
+              # Traditional Docker approach (for comparison/fallback)
+              SCAN_CMD="python scan_releases.py --versions v5.4.2,v5.4.1,v5.3.3,v5.2.5,v5.1.6,v5.0.9 --output-dir ${{ env.OUTPUT_DIR }}"
+              echo "🐳 Using Docker-only mode for stable releases"
+              ;;
+            "git-only")
+              # Pure git mode - most consistent, single clone for everything
+              SCAN_CMD="python scan_releases.py --scan-all-v5 --unified-mode --git-only --output-dir ${{ env.OUTPUT_DIR }}"
+              echo "📦 Using pure git mode: single clone, no Docker"
+              ;;
+            *)
+              echo "❌ Unknown scan mode: ${{ steps.config.outputs.scan_mode }}"
+              exit 1
+              ;;
+          esac
+          
+          # Override with custom versions if specified
+          if [[ -n "${{ steps.config.outputs.custom_versions }}" ]]; then
+            SCAN_CMD="python scan_releases.py --versions ${{ steps.config.outputs.custom_versions }} --unified-mode --output-dir ${{ env.OUTPUT_DIR }}"
+            echo "🎯 Using custom versions: ${{ steps.config.outputs.custom_versions }}"
+          fi
+          
+          # Add development branch scanning if requested
+          if [[ "${{ steps.config.outputs.include_branches }}" == "true" ]]; then
+            SCAN_CMD="$SCAN_CMD --include-branches master,develop"
+            echo "🌿 Including development branches: master, develop"
+          fi
+          
+          echo ""
+          echo "📋 Final scan command:"
+          echo "$SCAN_CMD"
+          echo ""
+          
+          # Execute the scan with timeout and comprehensive error handling
+          START_TIME=$(date +%s)
+          timeout 75m $SCAN_CMD || {
+            EXIT_CODE=$?
+            END_TIME=$(date +%s)
+            DURATION=$((END_TIME - START_TIME))
+            
+            if [[ $EXIT_CODE == 124 ]]; then
+              echo "⏰ Scan timed out after 75 minutes"
+              echo "::warning::Scan timeout - consider reducing scope or increasing timeout"
+            else
+              echo "❌ Scan failed with exit code $EXIT_CODE after ${DURATION}s"
+              echo "::error::Scan failed with exit code $EXIT_CODE"
+            fi
+            exit $EXIT_CODE
+          }
+          
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "✅ Scan completed successfully in ${DURATION}s"
+      
+      - name: Validate and analyze scan results
+        id: validate
+        if: steps.cache_check.outputs.cache_valid != 'true'
+        run: |
+          # Comprehensive validation and analysis
+          if [[ ! -f "${{ env.OUTPUT_DIR }}/scan_summary.json" ]]; then
+            echo "❌ Scan summary file not found"
+            exit 1
+          fi
+          
+          # Extract detailed statistics and validate JSON
+          python << 'EOF'
+          import json, sys, glob, os
+          
+          try:
+              # Load scan summary
+              with open('${{ env.OUTPUT_DIR }}/scan_summary.json', 'r') as f:
+                  summary = json.load(f)
+              
+              print(f'✅ Scan completed successfully')
+              print(f'📊 Total items scanned: {summary.get("total_scanned", 0)}')
+              print(f'🔧 ESP-IDF-SBOM version: {summary.get("scanner_info", {}).get("esp_idf_sbom_version", "unknown")}')
+              print(f'⚡ Optimization used: {"✅ Unified/Batch mode" if summary.get("scanner_info", {}).get("batch_mode_used") else "⚠️ Individual scanning"}')
+              
+              # Analyze all scan result files
+              total_vulns = 0
+              severity_counts = {'CRITICAL': 0, 'HIGH': 0, 'MEDIUM': 0, 'LOW': 0}
+              scanned_items = []
+              
+              for result_file in glob.glob('${{ env.OUTPUT_DIR }}/*.json'):
+                  if result_file.endswith('scan_summary.json'):
+                      continue
+                  
+                  try:
+                      with open(result_file, 'r') as f:
+                          data = json.load(f)
+                      
+                      version = data.get('release_version', 'unknown')
+                      scanned_items.append(version)
+                      
+                      item_vulns = data.get('summary', {}).get('total_vulnerabilities', 0)
+                      total_vulns += item_vulns
+                      
+                      for severity, count in data.get('summary', {}).get('by_severity', {}).items():
+                          if severity in severity_counts:
+                              severity_counts[severity] += count
+                  except Exception as e:
+                      print(f'⚠️  Error processing {result_file}: {e}')
+                      continue
+              
+              print(f'🔍 Total vulnerabilities found: {total_vulns}')
+              print(f'📂 Scanned items: {", ".join(sorted(scanned_items))}')
+              
+              # Detailed severity breakdown
+              if total_vulns > 0:
+                  print('\n📋 Severity breakdown:')
+                  for severity, count in severity_counts.items():
+                      if count > 0:
+                          emoji = {'CRITICAL': '🚨', 'HIGH': '⚠️', 'MEDIUM': '📋', 'LOW': '📝'}.get(severity, '📄')
+                          print(f'   {emoji} {severity}: {count}')
+              else:
+                  print('🎉 No vulnerabilities found!')
+              
+              # Set outputs for GitHub Actions
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write(f'total_vulnerabilities={total_vulns}\n')
+                  f.write(f'critical_vulns={severity_counts["CRITICAL"]}\n')
+                  f.write(f'high_vulns={severity_counts["HIGH"]}\n')
+                  f.write(f'total_scanned={len(scanned_items)}\n')
+              
+          except Exception as e:
+              print(f'❌ Failed to validate scan results: {e}')
+              sys.exit(1)
+          EOF
+      
+      - name: Create GitHub issue for critical vulnerabilities
+        if: false
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Analyze critical vulnerabilities
+            const dataDir = '${{ env.OUTPUT_DIR }}';
+            const files = fs.readdirSync(dataDir).filter(f => f.endsWith('.json') && f !== 'scan_summary.json');
+            
+            let criticalIssues = [];
+            let totalCritical = 0;
+            
+            for (const file of files) {
+              try {
+                const data = JSON.parse(fs.readFileSync(path.join(dataDir, file), 'utf8'));
+                const criticalVulns = (data.vulnerabilities || []).filter(v => v.severity === 'CRITICAL');
+                
+                if (criticalVulns.length > 0) {
+                  criticalIssues.push({
+                    version: data.release_version,
+                    count: criticalVulns.length,
+                    vulns: criticalVulns.slice(0, 3) // Show top 3 for brevity
+                  });
+                  totalCritical += criticalVulns.length;
+                }
+              } catch (e) {
+                console.log(`Error processing ${file}: ${e.message}`);
+              }
+            }
+            
+            if (criticalIssues.length > 0) {
+              const title = `🚨 Critical Security Vulnerabilities Found in ESP-IDF`;
+              const body = `
+            ## 🚨 Critical Vulnerabilities Detected
+            
+            **Scan Date:** ${new Date().toISOString().split('T')[0]}
+            **Total Critical Issues:** ${totalCritical}
+            **Affected Versions:** ${criticalIssues.length}
+            **Scan Mode:** ${{ steps.config.outputs.scan_mode }}
+            
+            ### Affected ESP-IDF Versions:
+            ${criticalIssues.map(issue => `
+            #### ${issue.version} (${issue.count} critical)
+            ${issue.vulns.map(v => `- **${v.cve_id}**: ${v.component} ${v.component_version || 'unknown'} - ${v.description ? v.description.substring(0, 100) + '...' : 'No description'}`).join('\n')}
+            `).join('\n')}
+            
+            ### 🔗 Resources
+            - **[Security Dashboard](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})**: View full vulnerability details
+            - **[ESP-IDF Releases](https://github.com/espressif/esp-idf/releases)**: Check for newer versions
+            - **[ESP-IDF Security Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/security/index.html)**: Security best practices
+            
+            ### 📋 Recommended Actions
+            1. **Review Impact**: Assess if these vulnerabilities affect your specific use case
+            2. **Version Analysis**: Consider upgrading to ESP-IDF versions with fewer critical issues
+            3. **Component Updates**: Check if vulnerable components can be updated independently
+            4. **Mitigation**: Implement additional security measures if upgrades aren't feasible
+            
+            ---
+            *🤖 This issue was automatically created by the [ESP-IDF Security Scanner](https://github.com/${{ github.repository }})*
+            *Workflow: [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*
+            `;
+              
+              // Check for existing critical vulnerability issues
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['security', 'critical', 'vulnerability-scan'],
+                state: 'open'
+              });
+              
+              if (existingIssues.length === 0) {
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['security', 'critical', 'vulnerability-scan', 'automated']
+                });
+                console.log(`🚨 Created critical vulnerability issue #${issue.data.number}`);
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingIssues[0].number,
+                  body: `## 🔄 Updated Scan Results (${new Date().toISOString().split('T')[0]})\n\n${body}`
+                });
+                console.log(`📝 Updated existing critical vulnerability issue #${existingIssues[0].number}`);
+              }
+            }
+      
+      - name: Commit scan results to repository
+        if: steps.cache_check.outputs.cache_valid != 'true' && github.ref == 'refs/heads/main'
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Check if there are any changes to commit
+          if [[ -d "${{ env.OUTPUT_DIR }}" && $(ls -A ${{ env.OUTPUT_DIR }}) ]]; then
+            git add ${{ env.OUTPUT_DIR }}/
+            
+            # Check if there are actually changes to commit
+            if git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "chore: update security scan results
+
+              - Updated scan data from workflow run ${{ github.run_number }}
+              - Scan mode: ${{ steps.config.outputs.scan_mode }}
+              - Total scanned: ${{ steps.validate.outputs.total_scanned || 'unknown' }}
+              - Total vulnerabilities: ${{ steps.validate.outputs.total_vulnerabilities || 'unknown' }}"
+              
+              git push
+              echo "✅ Scan results committed and pushed successfully"
+            fi
+          else
+            echo "No scan data to commit"
+          fi
+
+      - name: Upload scan results as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: esp-idf-security-scan-results-${{ github.run_number }}
+          path: |
+            ${{ env.OUTPUT_DIR }}/
+          retention-days: 30
+          compression-level: 6
+      
+      - name: Setup GitHub Pages
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/configure-pages@v4
+      
+      - name: Upload to GitHub Pages
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
+      
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Generate workflow summary
+        if: always()
+        run: |
+          echo "## 📊 ESP-IDF Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Add configuration details
+          echo "### 🔧 Scan Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- **Mode**: ${{ steps.config.outputs.scan_mode }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ steps.config.outputs.custom_versions }}" != "" ]]; then
+            echo "- **Custom Versions**: ${{ steps.config.outputs.custom_versions }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ steps.config.outputs.include_branches }}" == "true" ]]; then
+            echo "- **Development Branches**: Included" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Add results if available
+          if [[ -f "${{ env.OUTPUT_DIR }}/scan_summary.json" ]]; then
+            echo "### 📈 Results" >> $GITHUB_STEP_SUMMARY
+            
+            # Extract data for summary using Python
+            echo "- **Items Scanned**: $(python -c "import json; print(json.load(open('${{ env.OUTPUT_DIR }}/scan_summary.json')).get('total_scanned', 0))" 2>/dev/null || echo "unknown")" >> $GITHUB_STEP_SUMMARY
+            echo "- **Tool Version**: $(python -c "import json; print(json.load(open('${{ env.OUTPUT_DIR }}/scan_summary.json')).get('scanner_info', {}).get('esp_idf_sbom_version', 'unknown'))" 2>/dev/null || echo "unknown")" >> $GITHUB_STEP_SUMMARY
+            echo "- **Optimization**: ✅ Unified/Batch mode" >> $GITHUB_STEP_SUMMARY
+            
+            # Add vulnerability counts if validation ran
+            if [[ "${{ steps.validate.outputs.total_vulnerabilities }}" != "" ]]; then
+              echo "- **Total Vulnerabilities**: ${{ steps.validate.outputs.total_vulnerabilities }}" >> $GITHUB_STEP_SUMMARY
+              
+              if [[ "${{ steps.validate.outputs.critical_vulns }}" != "0" ]]; then
+                echo "- **🚨 Critical**: ${{ steps.validate.outputs.critical_vulns }}" >> $GITHUB_STEP_SUMMARY
+              fi
+              
+              if [[ "${{ steps.validate.outputs.high_vulns }}" != "0" ]]; then
+                echo "- **⚠️ High**: ${{ steps.validate.outputs.high_vulns }}" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          else
+            echo "### ⚠️ Status" >> $GITHUB_STEP_SUMMARY
+            if [[ "${{ steps.cache_check.outputs.cache_valid }}" == "true" ]]; then
+              echo "- Scan skipped: Recent data available" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- Scan failed or no results generated" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [🌐 Security Dashboard](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [📋 Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [📁 Repository](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
