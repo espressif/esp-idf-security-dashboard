@@ -275,7 +275,7 @@ jobs:
                           emoji = {'CRITICAL': '🚨', 'HIGH': '⚠️', 'MEDIUM': '📋', 'LOW': '📝'}.get(severity, '📄')
                           print(f'   {emoji} {severity}: {count}')
               else:
-                  print('🎉 No vulnerabilities found!')
+                  print('🎉 No known vulnerabilities found!')
               
               # Set outputs for GitHub Actions
               with open(os.environ['GITHUB_OUTPUT'], 'a') as f:

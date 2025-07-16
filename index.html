@@ -681,22 +681,13 @@
             <h1>ESP-IDF Security Dashboard</h1>
             <p>Vulnerability scanning results for ESP-IDF stable releases</p>
             <p style="margin-top: 0.5rem; opacity: 0.9;">
-                Additional insights into known vulnerabilities can be found in the 
+                Additional known vulnerabilities information can be found in the
                 <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/vulnerabilities.html" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    style="color: white; text-decoration: underline;">
-                    Vulnerabilities page of the ESP-IDF Programming Guide
-                </a>.
-            </p>
-            <p style="margin-top: 0.5rem; opacity: 0.9;">
-                View the source code at 
-                <a href="https://github.com/espressif/esp-idf-security-dashboard" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   style="color: white; text-decoration: underline;">
-                    GitHub Repository
-                </a>.
+                    ESP-IDF Vulnerabilities Guide
+                </a>
             </p>
         </div>
     </div>
@@ -1408,7 +1399,7 @@
                         </div>
                     </div>
                     <div class="vulnerability-summary">
-                        ${vulnSummaryHtml || '<span class="vuln-badge" style="background: rgba(40, 167, 69, 0.1); color: var(--success-color);">No vulnerabilities</span>'}
+                        ${vulnSummaryHtml || '<span class="vuln-badge" style="background: rgba(40, 167, 69, 0.1); color: var(--success-color);">No known vulnerabilities</span>'}
                         ${vulnerabilities.length > 0 ? `<button class="toggle-btn" onclick="toggleDetails('${version}')">Show Details</button>` : ''}
                     </div>
                     <div class="vulnerability-details" id="details-${version}">
@@ -1814,5 +1805,17 @@
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadDashboardData);
     </script>
+
+    <footer style="text-align: center; padding: 2rem; background: var(--light-gray); border-top: 1px solid #e9ecef; margin-top: 2rem;">
+        <p style="margin: 0; opacity: 0.8;">
+            View the source code at 
+            <a href="https://github.com/espressif/esp-idf-security-dashboard" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               style="color: var(--primary-color); text-decoration: underline;">
+                GitHub Repository
+            </a>
+        </p>
+    </footer>
 </body>
 </html>
