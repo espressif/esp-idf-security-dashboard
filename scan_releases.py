@@ -43,15 +43,14 @@ ESP_IDF_DOCKER_IMAGES = {
     'v5.1.3': 'espressif/idf:v5.1.3',
     'v5.1.2': 'espressif/idf:v5.1.2',
     'v5.1.1': 'espressif/idf:v5.1.1',
+    # Note: v5.1, v5.0.3, v5.0.2, v5.0.1, v5.0 excluded due to limited SBOM support
     'v5.0.9': 'espressif/idf:v5.0.9',
     'v5.0.8': 'espressif/idf:v5.0.8',
     'v5.0.7': 'espressif/idf:v5.0.7',
     'v5.0.6': 'espressif/idf:v5.0.6',
     'v5.0.5': 'espressif/idf:v5.0.5',
-    'v5.0.4': 'espressif/idf:v5.0.4',
-    'v5.0.3': 'espressif/idf:v5.0.3',
-    'v5.0.2': 'espressif/idf:v5.0.2',
-    'v5.0.1': 'espressif/idf:v5.0.1'
+    'v5.0.4': 'espressif/idf:v5.0.4'
+    # Note: v5.0.3, v5.0.2, v5.0.1, v5.0 excluded due to limited SBOM support
 }
 
 # Default releases to scan (most recent stable versions)
@@ -65,12 +64,13 @@ DEFAULT_RELEASES = [
 
 # ESP-IDF release branches to scan
 ESP_IDF_RELEASE_BRANCHES = [
-    'release/v5.0',
-    'release/v5.1', 
-    'release/v5.2',
-    'release/v5.3',
+    'master',
+    'release/v5.5',
     'release/v5.4',
-    'release/v5.5'
+    'release/v5.3',
+    'release/v5.2',
+    'release/v5.1',
+    'release/v5.0'
 ]
 
 class ESPIDFSecurityScanner:
@@ -407,7 +407,7 @@ class ESPIDFSecurityScanner:
                             scan_method = "git-tag"
                         else:
                             version_id = f"{target}-{commit_hash}"  # Use branch-hash for branches
-                            scan_method = "git-branch" if not target.startswith("release/") else "git-release-branch"
+                            scan_method = "git-branch" if not target.startswith("release/") and target != "master" else "git-release-branch"
                         
                         # Run vulnerability scan
                         logger.info(f"Running vulnerability scan for {target}...")
@@ -782,9 +782,11 @@ class ESPIDFSecurityScanner:
         tags, branches = self.get_available_targets(target_patterns=["v5."])
         release_branches = [b for b in branches if b.startswith("release/v5.")]
         
-        # Filter to v5.x tags only, excluding rc, dev, beta versions
+        # Filter to v5.x tags only, excluding rc, dev, beta versions and unsupported SBOM versions
+        unsupported_versions = ["v5.1", "v5.0.3", "v5.0.2", "v5.0.1", "v5.0"]
         v5_tags = [tag for tag in tags if tag.startswith("v5.") and 
-                   not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"])]
+                   not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"]) and
+                   tag not in unsupported_versions]
         
         logger.info(f"Found {len(v5_tags)} v5.x tags and {len(release_branches)} v5.x release branches")
         

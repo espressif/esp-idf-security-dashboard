@@ -1095,7 +1095,7 @@
                         const data = await response.json();
                         
                         // Separate releases from release branches
-                        if (version.startsWith('release_') || version.startsWith('release/')) {
+                        if (version.startsWith('release_') || version.startsWith('release/') || version.startsWith('master-')) {
                             branches[version] = data;
                         } else {
                             releases[version] = data;
@@ -1289,7 +1289,7 @@
 
         function updateBranchFilter() {
             const select = document.getElementById('branchFilter');
-            const branches = Object.keys(dashboardData.branches || {}).sort();
+            const branches = Object.keys(dashboardData.branches || {}).sort().reverse();
             
             // Clear existing options except "All Branches"
             select.innerHTML = '<option value="all">All Branches</option>';
@@ -1363,6 +1363,13 @@
             const severity = summary.by_severity || {};
             const scanDate = new Date(data.scan_date).toLocaleDateString();
             
+            // Check if this is a v5.0 version (including release branch)
+            const isV50 = version.startsWith('v5.0') || version.includes('release/v5.0') || version.includes('release_v5.0');
+            
+            // Check if this version has no SBOM support
+            const unsupportedSBOMVersions = ['v5.1', 'v5.0.3', 'v5.0.2', 'v5.0.1', 'v5.0'];
+            const hasNoSBOMSupport = unsupportedSBOMVersions.includes(version);
+            
             const vulnSummaryHtml = [
                 severity.CRITICAL && `<span class="vuln-badge critical">Critical: ${severity.CRITICAL}</span>`,
                 severity.HIGH && `<span class="vuln-badge high">High: ${severity.HIGH}</span>`,
@@ -1399,8 +1406,12 @@
                         </div>
                     </div>
                     <div class="vulnerability-summary">
-                        ${vulnSummaryHtml || '<span class="vuln-badge" style="background: rgba(40, 167, 69, 0.1); color: var(--success-color);">No known vulnerabilities</span>'}
-                        ${vulnerabilities.length > 0 ? `<button class="toggle-btn" onclick="toggleDetails('${version}')">Show Details</button>` : ''}
+                        ${hasNoSBOMSupport 
+                            ? '<span class="vuln-badge" style="background: rgba(108, 117, 125, 0.1); color: var(--dark-gray);">No SBOM support available</span>'
+                            : (vulnSummaryHtml || '<span class="vuln-badge" style="background: rgba(40, 167, 69, 0.1); color: var(--success-color);">No known vulnerabilities</span>')
+                        }
+                        ${isV50 ? '<span class="vuln-badge" style="background: rgba(220, 53, 69, 0.1); color: var(--danger-color); font-size: 0.7rem;">EOL</span>' : ''}
+                        ${vulnerabilities.length > 0 && !hasNoSBOMSupport ? `<button class="toggle-btn" onclick="toggleDetails('${version}')">Show Details</button>` : ''}
                     </div>
                     <div class="vulnerability-details" id="details-${version}">
                         ${vulnerabilityDetailsHtml}
@@ -1447,7 +1458,7 @@
                 branches = branches.filter(([version, data]) => version === branchFilter);
             }
             
-            branches.sort(([a], [b]) => a.localeCompare(b));
+            branches.sort(([a], [b]) => b.localeCompare(a));
             
             const branchesHtml = branches.map(([version, data]) => {
                 const vulnerabilities = data.vulnerabilities || [];
@@ -1501,7 +1512,7 @@
             
             // Generate cross-reference content similar to releases
             const content = document.getElementById('branchCveAnalysisContent');
-            const allVersions = Object.keys(dashboardData.branches || {}).sort();
+            const allVersions = Object.keys(dashboardData.branches || {}).sort().reverse();
             
             if (cveMap.size === 0) {
                 content.innerHTML = '<p>No CVE data available for branch analysis.</p>';
@@ -1599,12 +1610,21 @@
             // Find ESP-IDF versions where this CVE is NOT present (i.e., fixed)
             const allVersions = Object.keys(dashboardData.releases).sort((a, b) => compareVersions(a, b));
             const affectedVersions = cveData.affectedVersions;
-            const fixedInVersions = allVersions.filter(version => !affectedVersions.includes(version));
+            const allFixedVersions = allVersions.filter(version => !affectedVersions.includes(version));
+            
+            // Only show incremental releases (newer than the latest affected version)
+            const latestAffectedVersion = affectedVersions.length > 0 
+                ? affectedVersions.sort((a, b) => compareVersions(b, a))[0] // Get newest affected
+                : null;
+            
+            const fixedInVersions = latestAffectedVersion 
+                ? allFixedVersions.filter(version => compareVersions(version, latestAffectedVersion) > 0)
+                : allFixedVersions;
             
             if (fixedInVersions.length === 0) {
                 return `
                     <div class="no-fix-info">
-                        ⚠️ CVE ${cveId} appears to be present in all scanned ESP-IDF releases. 
+                        ⚠️ CVE ${cveId} is not fixed in any ESP-IDF release newer than the latest affected version. 
                         Consider updating component to version: ${cveData.fixedVersions.join(', ') || 'Check component documentation'}
                     </div>
                 `;
@@ -1677,13 +1697,24 @@
             
             const crossRefHtml = `
                 <div style="margin-bottom: 1rem; color: var(--dark-gray);">
-                    This analysis shows which ESP-IDF releases contain each CVE and which releases have fixes.
+                    This analysis shows which ESP-IDF releases contain each CVE and which newer releases have fixes.
+                    Only incremental releases (newer than the latest affected version) are shown as fix targets.
                     Use this information to plan migrations and understand security improvements across versions.
                 </div>
                 
                 ${cveList.map(([cveId, cveData]) => {
                     const affectedVersions = cveData.affectedVersions.sort((a, b) => compareVersions(a, b));
-                    const fixedVersions = allVersions.filter(v => !affectedVersions.includes(v));
+                    const allFixedVersions = allVersions.filter(v => !affectedVersions.includes(v));
+                    
+                    // Only show incremental releases (newer than the latest affected version)
+                    const latestAffectedVersion = affectedVersions.length > 0 
+                        ? affectedVersions.sort((a, b) => compareVersions(b, a))[0] // Get newest affected
+                        : null;
+                    
+                    const fixedVersions = latestAffectedVersion 
+                        ? allFixedVersions.filter(version => compareVersions(version, latestAffectedVersion) > 0)
+                        : allFixedVersions;
+                    
                     const severityClass = (cveData.severity || 'unknown').toLowerCase();
                     
                     return `
@@ -1708,7 +1739,7 @@
                                     <div style="margin-top: 0.5rem;">
                                         ${fixedVersions.length > 0 
                                             ? fixedVersions.map(v => `<span class="idf-version-badge">${v}</span>`).join(' ')
-                                            : '<span style="color: var(--danger-color);">Not fixed in scanned releases</span>'
+                                            : '<span style="color: var(--danger-color);">No newer releases with fix available</span>'
                                         }
                                     </div>
                                 </div>
@@ -1726,7 +1757,7 @@
                 <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; font-size: 0.9rem; color: var(--dark-gray);">
                     <strong>Legend:</strong><br>
                     • <span style="color: var(--danger-color);">Affected Releases</span>: ESP-IDF versions where the CVE is present<br>
-                    • <span style="color: var(--success-color);">Fixed Releases</span>: ESP-IDF versions where the CVE has been resolved<br>
+                    • <span style="color: var(--success-color);">Fixed Releases</span>: ESP-IDF versions newer than the latest affected version where the CVE has been resolved<br>
                     • Component fixes refer to the specific library version that resolves the CVE
                 </div>
             `;
