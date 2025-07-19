@@ -778,15 +778,18 @@ class ESPIDFSecurityScanner:
         """Scan all available v5.x tags and release branches efficiently"""
         logger.info("Scanning ESP-IDF v5.x releases and branches...")
         
-        # Get available v5.x tags and release branches
-        tags, branches = self.get_available_targets(target_patterns=["v5."])
+        # Get available v5.x tags and release branches, plus master branch
+        tags, branches = self.get_available_targets(target_patterns=["v5.", "master"])
         release_branches = [b for b in branches if b.startswith("release/v5.")]
         
-        # Filter to v5.x tags only, excluding rc, dev, beta versions and unsupported SBOM versions
-        unsupported_versions = ["v5.1", "v5.0.3", "v5.0.2", "v5.0.1", "v5.0"]
+        # Add master branch if available
+        if "master" in branches:
+            release_branches.append("master")
+        
+        # Filter to v5.x tags only, excluding rc, dev, beta versions
+        # Note: Previously unsupported SBOM versions are now included to show "No SBOM support" status
         v5_tags = [tag for tag in tags if tag.startswith("v5.") and 
-                   not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"]) and
-                   tag not in unsupported_versions]
+                   not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"])]
         
         logger.info(f"Found {len(v5_tags)} v5.x tags and {len(release_branches)} v5.x release branches")
         

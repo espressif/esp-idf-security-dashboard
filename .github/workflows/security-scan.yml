@@ -96,7 +96,7 @@ jobs:
           elif [[ "${{ github.event_name }}" == "schedule" ]]; then
             SCAN_MODE="git-only"
             CUSTOM_VERSIONS=""
-            INCLUDE_BRANCHES="false"
+            INCLUDE_BRANCHES="true"
             FORCE_SCAN="false"
           else
             # Push/PR - quick scan for testing
