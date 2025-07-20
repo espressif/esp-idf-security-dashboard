@@ -1458,7 +1458,17 @@
                 branches = branches.filter(([version, data]) => version === branchFilter);
             }
             
-            branches.sort(([a], [b]) => b.localeCompare(a));
+            // Sort branches with master at the top, then alphabetically
+            branches.sort(([a], [b]) => {
+                // Prioritize master branch at the top (master branch starts with "master-")
+                const aIsMaster = a.startsWith('master-') || a === 'master';
+                const bIsMaster = b.startsWith('master-') || b === 'master';
+                
+                if (aIsMaster && !bIsMaster) return -1;
+                if (bIsMaster && !aIsMaster) return 1;
+                // For all other branches, sort alphabetically (descending)
+                return b.localeCompare(a);
+            });
             
             const branchesHtml = branches.map(([version, data]) => {
                 const vulnerabilities = data.vulnerabilities || [];
