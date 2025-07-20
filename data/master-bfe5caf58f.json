@@ -1,23 +1,13 @@
 {
-  "release_version": "v5.1.6",
-  "scan_date": "2025-07-20T00:31:30.989049Z",
+  "release_version": "master-bfe5caf58f",
+  "scan_date": "2025-07-20T00:33:27.270612Z",
   "tool_version": "0.20.1",
   "total_components": 0,
   "vulnerabilities": [
     {
-      "cve_id": "CVE-2025-27809",
-      "component": "mbed_tls",
-      "component_version": "3.6.2",
-      "severity": "MEDIUM",
-      "score": "5.4",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
-      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, on the client side, accepts servers that have trusted certificates for arbitrary hostnames unless the TLS client application calls mbedtls_ssl_set_hostname.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27809"
-    },
-    {
       "cve_id": "CVE-2025-49600",
       "component": "mbed_tls",
-      "component_version": "3.6.2",
+      "component_version": "3.6.3",
       "severity": "MEDIUM",
       "score": "4.9",
       "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N",
@@ -27,7 +17,7 @@
     {
       "cve_id": "CVE-2025-49601",
       "component": "mbed_tls",
-      "component_version": "3.6.2",
+      "component_version": "3.6.3",
       "severity": "MEDIUM",
       "score": "4.8",
       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:L",
@@ -37,7 +27,7 @@
     {
       "cve_id": "CVE-2025-52497",
       "component": "mbed_tls",
-      "component_version": "3.6.2",
+      "component_version": "3.6.3",
       "severity": "MEDIUM",
       "score": "4.8",
       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:L",
@@ -46,17 +36,17 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 4,
+    "total_vulnerabilities": 3,
     "by_severity": {
       "CRITICAL": 0,
       "HIGH": 0,
-      "MEDIUM": 4,
+      "MEDIUM": 3,
       "LOW": 0
     }
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }

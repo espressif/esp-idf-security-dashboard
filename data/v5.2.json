@@ -1,19 +1,9 @@
 {
   "release_version": "v5.2",
-  "scan_date": "2025-07-19T09:30:10.705601Z",
+  "scan_date": "2025-07-20T00:29:49.893322Z",
   "tool_version": "0.20.1",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2024-30949",
-      "component": "newlib",
-      "component_version": "4.3.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
-    },
     {
       "cve_id": "CVE-2024-45159",
       "component": "mbed_tls",
@@ -33,6 +23,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    },
+    {
+      "cve_id": "CVE-2024-30949",
+      "component": "newlib",
+      "component_version": "4.3.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
     },
     {
       "cve_id": "CVE-2024-30166",
@@ -63,6 +63,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
       "description": "An issue was discovered in Mbed TLS 2.18.0 through 2.28.x before 2.28.8 and 3.x before 3.6.0, and Mbed Crypto. The PSA Crypto API mishandles shared memory.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28960"
+    },
+    {
+      "cve_id": "CVE-2024-31755",
+      "component": "cjson",
+      "component_version": "1.7.17",
+      "severity": "HIGH",
+      "score": "7.6",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H",
+      "description": "cJSON v1.7.17 was discovered to contain a segmentation violation, which can trigger through the second parameter of function cJSON_SetValuestring at cJSON.c.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-31755"
     },
     {
       "cve_id": "CVE-2023-52353",
@@ -186,10 +196,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 18,
+    "total_vulnerabilities": 19,
     "by_severity": {
       "CRITICAL": 4,
-      "HIGH": 5,
+      "HIGH": 6,
       "MEDIUM": 8,
       "LOW": 1
     }
