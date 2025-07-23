@@ -1,7 +1,7 @@
 {
   "release_version": "master-bfe5caf58f",
-  "scan_date": "2025-07-22T00:27:47.082727Z",
-  "tool_version": "0.20.1",
+  "scan_date": "2025-07-23T00:27:29.906473Z",
+  "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
     {
