@@ -1,9 +1,19 @@
 {
   "release_version": "v5.1.6",
-  "scan_date": "2025-08-07T00:26:38.930043Z",
+  "scan_date": "2025-08-08T00:25:40.885445Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2025-47917",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "HIGH",
+      "score": "8.9",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:H/A:H",
+      "description": "Mbed TLS before 3.6.4 allows a use-after-free in certain situations of applications that are developed in accordance with the documentation. The function mbedtls_x509_string_to_names() takes a head argument that is documented as an output argument. The documentation does not suggest that the function will free that pointer; however, the function does call mbedtls_asn1_free_named_data_list() on that argument, which performs a deep free(). As a result, application code that uses this function (relying only on documented behavior) is likely to still hold pointers to the memory blocks that were freed, resulting in a high risk of use-after-free or double-free. In particular, the two sample programs x509/cert_write and x509/cert_req are affected (use-after-free if the san string contains more than one DN).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-47917"
+    },
     {
       "cve_id": "CVE-2025-27809",
       "component": "mbed_tls",
@@ -43,14 +53,34 @@
       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:L",
       "description": "Mbed TLS before 3.6.4 has a PEM parsing one-byte heap-based buffer underflow, in mbedtls_pem_read_buffer and two mbedtls_pk_parse functions, via untrusted PEM input.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52497"
+    },
+    {
+      "cve_id": "CVE-2025-48965",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "MEDIUM",
+      "score": "4.0",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:N/A:L",
+      "description": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigger conflicting data with val.p of NULL but val.len greater than zero.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-48965"
+    },
+    {
+      "cve_id": "CVE-2025-49087",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "MEDIUM",
+      "score": "4.0",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N",
+      "description": "In Mbed TLS 3.6.1 through 3.6.3 before 3.6.4, a timing discrepancy in block cipher padding removal allows an attacker to recover the plaintext when PKCS#7 padding mode is used.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-49087"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 4,
+    "total_vulnerabilities": 7,
     "by_severity": {
       "CRITICAL": 0,
-      "HIGH": 0,
-      "MEDIUM": 4,
+      "HIGH": 1,
+      "MEDIUM": 6,
       "LOW": 0
     }
   },
