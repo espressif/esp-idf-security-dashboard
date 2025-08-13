@@ -53,25 +53,39 @@ ESP_IDF_DOCKER_IMAGES = {
     # Note: v5.0.3, v5.0.2, v5.0.1, v5.0 excluded due to limited SBOM support
 }
 
-# Default releases to scan (most recent stable versions)
-DEFAULT_RELEASES = [
-    'v5.4.2', 'v5.4.1',
-    'v5.3.3', 'v5.3.2', 
-    'v5.2.5', 'v5.2.4',
-    'v5.1.6', 'v5.1.5',
-    'v5.0.9', 'v5.0.8'
-]
+# Default releases to scan (configurable via environment variables)
+def get_default_releases():
+    """Get default releases from environment variable or use hardcoded fallback"""
+    env_releases = os.getenv('DEFAULT_RELEASES')
+    if env_releases:
+        return [r.strip() for r in env_releases.split(',')]
+    return [
+        'v5.4.2', 'v5.4.1',
+        'v5.3.3', 'v5.3.2', 
+        'v5.2.5', 'v5.2.4',
+        'v5.1.6', 'v5.1.5',
+        'v5.0.9', 'v5.0.8'
+    ]
 
-# ESP-IDF release branches to scan
-ESP_IDF_RELEASE_BRANCHES = [
-    'master',
-    'release/v5.5',
-    'release/v5.4',
-    'release/v5.3',
-    'release/v5.2',
-    'release/v5.1',
-    'release/v5.0'
-]
+# ESP-IDF release branches to scan (configurable via environment variables)
+def get_esp_idf_release_branches():
+    """Get ESP-IDF release branches from environment variable or use hardcoded fallback"""
+    env_branches = os.getenv('ESP_IDF_RELEASE_BRANCHES')
+    if env_branches:
+        return [b.strip() for b in env_branches.split(',')]
+    return [
+        'master',
+        'release/v5.5',
+        'release/v5.4',
+        'release/v5.3',
+        'release/v5.2',
+        'release/v5.1',
+        'release/v5.0'
+    ]
+
+# Legacy constants for backwards compatibility
+DEFAULT_RELEASES = get_default_releases()
+ESP_IDF_RELEASE_BRANCHES = get_esp_idf_release_branches()
 
 class ESPIDFSecurityScanner:
     def __init__(self, output_dir, use_docker=True):
@@ -652,7 +666,7 @@ class ESPIDFSecurityScanner:
             
             # Add release branches
             if include_release_branches:
-                git_targets.extend(ESP_IDF_RELEASE_BRANCHES)
+                git_targets.extend(get_esp_idf_release_branches())
                 
             # Add custom branches
             if include_branches:
@@ -684,8 +698,9 @@ class ESPIDFSecurityScanner:
                 
         # Scan ESP-IDF release branches if requested (and not in batch mode)
         if include_release_branches:
-            logger.info(f"Scanning ESP-IDF release branches: {ESP_IDF_RELEASE_BRANCHES}")
-            for branch in ESP_IDF_RELEASE_BRANCHES:
+            release_branches = get_esp_idf_release_branches()
+            logger.info(f"Scanning ESP-IDF release branches: {release_branches}")
+            for branch in release_branches:
                 version_id, scan_result = self.scan_latest_branch(branch)
                 if scan_result:
                     tool_version = self.get_tool_version()
@@ -840,10 +855,11 @@ def main():
         return
         
     if args.list_release_branches:
+        release_branches = get_esp_idf_release_branches()
         print("Available ESP-IDF release branches:")
-        for branch in ESP_IDF_RELEASE_BRANCHES:
+        for branch in release_branches:
             print(f"  {branch}")
-        print(f"\nTotal: {len(ESP_IDF_RELEASE_BRANCHES)} release branches")
+        print(f"\nTotal: {len(release_branches)} release branches")
         print("\nTo scan these branches, use: --include-release-branches")
         return
         
@@ -879,7 +895,7 @@ def main():
             elif args.versions:
                 versions = [v.strip() for v in args.versions.split(',')]
             else:
-                versions = DEFAULT_RELEASES
+                versions = get_default_releases()
                 
             branches = None
             if args.include_branches:
@@ -893,7 +909,8 @@ def main():
             logger.info(f"Git-only mode: {args.git_only}")
             logger.info(f"Versions to scan: {len(versions)}")
             if args.include_release_branches:
-                logger.info(f"Release branches to scan: {len(ESP_IDF_RELEASE_BRANCHES)}")
+                release_branches = get_esp_idf_release_branches()
+                logger.info(f"Release branches to scan: {len(release_branches)}")
             if branches:
                 logger.info(f"Custom branches to scan: {branches}")
             
@@ -901,7 +918,7 @@ def main():
             if args.unified_mode:
                 all_targets = versions[:]
                 if args.include_release_branches:
-                    all_targets.extend(ESP_IDF_RELEASE_BRANCHES)
+                    all_targets.extend(get_esp_idf_release_branches())
                 if branches:
                     all_targets.extend(branches)
                 

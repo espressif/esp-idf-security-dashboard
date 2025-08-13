@@ -54,6 +54,10 @@ permissions:
 env:
   PYTHON_VERSION: '3.11'
   OUTPUT_DIR: 'data'
+  # GitHub variables for configurable scan targets
+  DEFAULT_RELEASES: ${{ vars.DEFAULT_RELEASES || 'v5.4.2,v5.4.1,v5.3.3,v5.3.2,v5.2.5,v5.2.4,v5.1.6,v5.1.5,v5.0.9,v5.0.8' }}
+  ESP_IDF_RELEASE_BRANCHES: ${{ vars.ESP_IDF_RELEASE_BRANCHES || 'master,release/v5.5,release/v5.4,release/v5.3,release/v5.2,release/v5.1,release/v5.0' }}
+  ESP_IDF_DEV_BRANCHES: ${{ vars.ESP_IDF_DEV_BRANCHES || 'master,develop' }}
 
 jobs:
   # Single unified scanning job - maximum efficiency
@@ -184,8 +188,8 @@ jobs:
           
           # Add development branch scanning if requested
           if [[ "${{ steps.config.outputs.include_branches }}" == "true" ]]; then
-            SCAN_CMD="$SCAN_CMD --include-branches master,develop"
-            echo "🌿 Including development branches: master, develop"
+            SCAN_CMD="$SCAN_CMD --include-branches ${{ env.ESP_IDF_DEV_BRANCHES }}"
+            echo "🌿 Including development branches: ${{ env.ESP_IDF_DEV_BRANCHES }}"
           fi
           
           echo ""
