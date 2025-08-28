@@ -1087,12 +1087,26 @@
                 
                 updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
                 
-                for (const version of summary.scanned_versions) {
+                // Create all fetch promises to load files in parallel
+                const fetchPromises = summary.scanned_versions.map(async (version) => {
                     try {
-                        // Convert file path: replace 'release/' with 'release_' for file names
                         const fileName = version.replace('release/', 'release_');
                         const response = await fetch(`${dataPath}${fileName}.json`);
                         const data = await response.json();
+                        return { version, data, success: true };
+                    } catch (error) {
+                        console.warn(`Failed to load data for ${version}:`, error);
+                        return { version, data: null, success: false };
+                    }
+                });
+                
+                // Execute all fetches in parallel
+                const results = await Promise.allSettled(fetchPromises);
+                
+                // Process results
+                results.forEach((result) => {
+                    if (result.status === 'fulfilled' && result.value.success) {
+                        const { version, data } = result.value;
                         
                         // Separate releases from release branches
                         if (version.startsWith('release_') || version.startsWith('release/') || version.startsWith('master-')) {
@@ -1100,19 +1114,14 @@
                         } else {
                             releases[version] = data;
                         }
-                        
                         loadedVersions++;
-                        updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
-                        
-                        // Update progress incrementally
-                        const fileProgress = 10 + (loadedVersions / totalVersions) * 50; // 10% to 60%
-                        updateProgressBar(fileProgress);
-                    } catch (error) {
-                        console.warn(`Failed to load data for ${version}:`, error);
-                        loadedVersions++;
-                        updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
+                    } else {
+                        loadedVersions++; // Count failed loads too
                     }
-                }
+                });
+                
+                updateLoadingDetails('Loading vulnerability data files...', loadedVersions, totalVersions);
+                updateProgressBar(60);
                 
                 updateLoadingStep(1, 'completed');
                 
