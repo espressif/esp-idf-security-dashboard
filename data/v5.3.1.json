@@ -1,9 +1,19 @@
 {
   "release_version": "v5.3.1",
-  "scan_date": "2025-09-22T00:23:31.930499Z",
+  "scan_date": "2025-09-23T00:24:49.784697Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2024-30949",
+      "component": "newlib",
+      "component_version": "4.3.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
+    },
     {
       "cve_id": "CVE-2024-45158",
       "component": "mbed_tls",
@@ -35,16 +45,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
     },
     {
-      "cve_id": "CVE-2024-30949",
-      "component": "newlib",
-      "component_version": "4.3.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
-    },
-    {
       "cve_id": "CVE-2025-47917",
       "component": "mbed_tls",
       "component_version": "3.6.0",
@@ -53,6 +53,16 @@
       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:H/A:H",
       "description": "Mbed TLS before 3.6.4 allows a use-after-free in certain situations of applications that are developed in accordance with the documentation. The function mbedtls_x509_string_to_names() takes a head argument that is documented as an output argument. The documentation does not suggest that the function will free that pointer; however, the function does call mbedtls_asn1_free_named_data_list() on that argument, which performs a deep free(). As a result, application code that uses this function (relying only on documented behavior) is likely to still hold pointers to the memory blocks that were freed, resulting in a high risk of use-after-free or double-free. In particular, the two sample programs x509/cert_write and x509/cert_req are affected (use-after-free if the san string contains more than one DN).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-47917"
+    },
+    {
+      "cve_id": "CVE-2025-52496",
+      "component": "mbed_tls",
+      "component_version": "3.6.0",
+      "severity": "HIGH",
+      "score": "7.8",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+      "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
     },
     {
       "cve_id": "CVE-2024-28755",
@@ -126,10 +136,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 12,
+    "total_vulnerabilities": 13,
     "by_severity": {
       "CRITICAL": 4,
-      "HIGH": 1,
+      "HIGH": 2,
       "MEDIUM": 7,
       "LOW": 0
     }

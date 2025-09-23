@@ -1,9 +1,19 @@
 {
   "release_version": "v5.3",
-  "scan_date": "2025-09-22T00:26:22.861159Z",
+  "scan_date": "2025-09-23T00:22:45.917791Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2024-30949",
+      "component": "newlib",
+      "component_version": "4.3.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
+    },
     {
       "cve_id": "CVE-2024-45158",
       "component": "mbed_tls",
@@ -35,16 +45,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
     },
     {
-      "cve_id": "CVE-2024-30949",
-      "component": "newlib",
-      "component_version": "4.3.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
-    },
-    {
       "cve_id": "CVE-2025-47917",
       "component": "mbed_tls",
       "component_version": "3.6.0",
@@ -63,6 +63,16 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
       "description": "FreeRTOS is a real-time operating system for microcontrollers. FreeRTOS Kernel versions through 10.6.1 do not sufficiently protect against local privilege escalation via Return Oriented Programming techniques should a vulnerability exist that allows code injection and execution. These issues affect ARMv7-M MPU ports, and ARMv8-M ports with Memory Protected Unit (MPU) support enabled (i.e. `configENABLE_MPU` set to 1). These issues are fixed in version 10.6.2 with a new MPU wrapper. ",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28115"
+    },
+    {
+      "cve_id": "CVE-2025-52496",
+      "component": "mbed_tls",
+      "component_version": "3.6.0",
+      "severity": "HIGH",
+      "score": "7.8",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+      "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
     },
     {
       "cve_id": "CVE-2024-28755",
@@ -136,10 +146,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 13,
+    "total_vulnerabilities": 14,
     "by_severity": {
       "CRITICAL": 4,
-      "HIGH": 2,
+      "HIGH": 3,
       "MEDIUM": 7,
       "LOW": 0
     }

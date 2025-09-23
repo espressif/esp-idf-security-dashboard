@@ -1,6 +1,6 @@
 {
   "release_version": "v5.2.2",
-  "scan_date": "2025-09-22T00:23:24.432024Z",
+  "scan_date": "2025-09-23T00:22:38.710299Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -63,6 +63,16 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
       "description": "FreeRTOS is a real-time operating system for microcontrollers. FreeRTOS Kernel versions through 10.6.1 do not sufficiently protect against local privilege escalation via Return Oriented Programming techniques should a vulnerability exist that allows code injection and execution. These issues affect ARMv7-M MPU ports, and ARMv8-M ports with Memory Protected Unit (MPU) support enabled (i.e. `configENABLE_MPU` set to 1). These issues are fixed in version 10.6.2 with a new MPU wrapper. ",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28115"
+    },
+    {
+      "cve_id": "CVE-2025-52496",
+      "component": "mbed_tls",
+      "component_version": "3.6.0",
+      "severity": "HIGH",
+      "score": "7.8",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+      "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
     },
     {
       "cve_id": "CVE-2024-31755",
@@ -156,10 +166,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 15,
+    "total_vulnerabilities": 16,
     "by_severity": {
       "CRITICAL": 4,
-      "HIGH": 3,
+      "HIGH": 4,
       "MEDIUM": 7,
       "LOW": 1
     }

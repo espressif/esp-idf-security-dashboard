@@ -1,19 +1,9 @@
 {
   "release_version": "v5.2.1",
-  "scan_date": "2025-09-22T00:24:20.478812Z",
+  "scan_date": "2025-09-23T00:25:18.545556Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2024-30949",
-      "component": "newlib",
-      "component_version": "4.3.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
-    },
     {
       "cve_id": "CVE-2024-45159",
       "component": "mbed_tls",
@@ -33,6 +23,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    },
+    {
+      "cve_id": "CVE-2024-30949",
+      "component": "newlib",
+      "component_version": "4.3.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
     },
     {
       "cve_id": "CVE-2024-30166",
@@ -73,6 +73,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
       "description": "An issue was discovered in Mbed TLS 2.18.0 through 2.28.x before 2.28.8 and 3.x before 3.6.0, and Mbed Crypto. The PSA Crypto API mishandles shared memory.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28960"
+    },
+    {
+      "cve_id": "CVE-2025-52496",
+      "component": "mbed_tls",
+      "component_version": "3.5.2",
+      "severity": "HIGH",
+      "score": "7.8",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+      "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
     },
     {
       "cve_id": "CVE-2024-31755",
@@ -176,10 +186,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 17,
+    "total_vulnerabilities": 18,
     "by_severity": {
       "CRITICAL": 4,
-      "HIGH": 4,
+      "HIGH": 5,
       "MEDIUM": 8,
       "LOW": 1
     }
