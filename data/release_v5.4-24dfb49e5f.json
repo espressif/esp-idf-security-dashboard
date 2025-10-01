@@ -1,6 +1,6 @@
 {
-  "release_version": "v5.1",
-  "scan_date": "2025-10-01T00:28:09.029682Z",
+  "release_version": "release/v5.4-24dfb49e5f",
+  "scan_date": "2025-10-01T00:29:07.472996Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [],
@@ -15,7 +15,7 @@
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }
