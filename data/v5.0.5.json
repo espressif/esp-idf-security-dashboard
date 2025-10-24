@@ -1,6 +1,6 @@
 {
   "release_version": "v5.0.5",
-  "scan_date": "2025-10-23T00:25:49.654846Z",
+  "scan_date": "2025-10-24T00:22:37.372700Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -145,6 +145,16 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27809"
     },
     {
+      "cve_id": "CVE-2025-59438",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.3",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "description": "Mbed TLS through 3.6.4 has an Observable Timing Discrepancy.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-59438"
+    },
+    {
       "cve_id": "CVE-2024-45157",
       "component": "mbed_tls",
       "component_version": "3.5.0",
@@ -206,11 +216,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 20,
+    "total_vulnerabilities": 21,
     "by_severity": {
       "CRITICAL": 3,
       "HIGH": 7,
-      "MEDIUM": 9,
+      "MEDIUM": 10,
       "LOW": 1
     }
   },
