@@ -1,19 +1,9 @@
 {
   "release_version": "v5.2",
-  "scan_date": "2025-10-30T00:27:53.253522Z",
+  "scan_date": "2025-10-31T00:23:42.883152Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2024-30949",
-      "component": "newlib",
-      "component_version": "4.3.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
-    },
     {
       "cve_id": "CVE-2024-45159",
       "component": "mbed_tls",
@@ -33,6 +23,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    },
+    {
+      "cve_id": "CVE-2024-30949",
+      "component": "newlib",
+      "component_version": "4.3.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue in newlib v.4.3.0 allows an attacker to execute arbitrary code via the time unit scaling in the _gettimeofday function.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30949"
     },
     {
       "cve_id": "CVE-2024-30166",
@@ -165,6 +165,16 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27809"
     },
     {
+      "cve_id": "CVE-2025-27810",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.4",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
+      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, in some cases of failed memory allocation or hardware errors, uses uninitialized stack memory to compose the TLS Finished message, potentially leading to authentication bypasses such as replays.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27810"
+    },
+    {
       "cve_id": "CVE-2025-59438",
       "component": "mbed_tls",
       "component_version": "3.5.0",
@@ -236,11 +246,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 23,
+    "total_vulnerabilities": 24,
     "by_severity": {
       "CRITICAL": 4,
       "HIGH": 8,
-      "MEDIUM": 10,
+      "MEDIUM": 11,
       "LOW": 1
     }
   },
