@@ -1,6 +1,6 @@
 {
   "release_version": "v5.3",
-  "scan_date": "2025-10-31T00:27:14.644549Z",
+  "scan_date": "2025-11-01T00:25:24.192785Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -85,6 +85,16 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28755"
     },
     {
+      "cve_id": "CVE-2025-54764",
+      "component": "mbed_tls",
+      "component_version": "3.6.0",
+      "severity": "MEDIUM",
+      "score": "6.2",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
+    },
+    {
       "cve_id": "CVE-2025-27809",
       "component": "mbed_tls",
       "component_version": "3.6.0",
@@ -166,11 +176,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 16,
+    "total_vulnerabilities": 17,
     "by_severity": {
       "CRITICAL": 4,
       "HIGH": 3,
-      "MEDIUM": 9,
+      "MEDIUM": 10,
       "LOW": 0
     }
   },

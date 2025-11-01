@@ -1,6 +1,6 @@
 {
   "release_version": "v5.2.3",
-  "scan_date": "2025-10-31T00:26:19.542035Z",
+  "scan_date": "2025-11-01T00:24:49.695987Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -73,6 +73,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
       "description": "An issue was discovered in Mbed TLS 3.5.x before 3.6.0. When an SSL context was reset with the mbedtls_ssl_session_reset() API, the maximum TLS version to be negotiated was not restored to the configured one. An attacker was able to prevent an Mbed TLS server from establishing any TLS 1.3 connection, potentially resulting in a Denial of Service or forced version downgrade from TLS 1.3 to TLS 1.2.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28755"
+    },
+    {
+      "cve_id": "CVE-2025-54764",
+      "component": "mbed_tls",
+      "component_version": "3.6.0",
+      "severity": "MEDIUM",
+      "score": "6.2",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
     },
     {
       "cve_id": "CVE-2025-27809",
@@ -156,11 +166,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 15,
+    "total_vulnerabilities": 16,
     "by_severity": {
       "CRITICAL": 4,
       "HIGH": 2,
-      "MEDIUM": 9,
+      "MEDIUM": 10,
       "LOW": 0
     }
   },

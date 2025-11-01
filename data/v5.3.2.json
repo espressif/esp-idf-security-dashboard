@@ -1,6 +1,6 @@
 {
   "release_version": "v5.3.2",
-  "scan_date": "2025-10-31T00:24:02.585553Z",
+  "scan_date": "2025-11-01T00:27:38.864669Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -33,6 +33,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
       "description": "The implementation of PEAP in wpa_supplicant through 2.10 allows authentication bypass. For a successful attack, wpa_supplicant must be configured to not verify the network's TLS certificate during Phase 1 authentication, and an eap_peap_decrypt vulnerability can then be abused to skip Phase 2 authentication. The attack vector is sending an EAP-TLV Success packet instead of starting Phase 2. This allows an adversary to impersonate Enterprise Wi-Fi networks.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-52160"
+    },
+    {
+      "cve_id": "CVE-2025-54764",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "MEDIUM",
+      "score": "6.2",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
     },
     {
       "cve_id": "CVE-2025-27809",
@@ -116,11 +126,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 11,
+    "total_vulnerabilities": 12,
     "by_severity": {
       "CRITICAL": 0,
       "HIGH": 2,
-      "MEDIUM": 9,
+      "MEDIUM": 10,
       "LOW": 0
     }
   },

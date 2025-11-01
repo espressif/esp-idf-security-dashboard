@@ -1,6 +1,6 @@
 {
   "release_version": "v5.2.5",
-  "scan_date": "2025-10-31T00:24:23.945599Z",
+  "scan_date": "2025-11-01T00:26:28.925999Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -23,6 +23,16 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
       "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
+    },
+    {
+      "cve_id": "CVE-2025-54764",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "MEDIUM",
+      "score": "6.2",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
     },
     {
       "cve_id": "CVE-2025-27809",
@@ -106,11 +116,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 10,
+    "total_vulnerabilities": 11,
     "by_severity": {
       "CRITICAL": 0,
       "HIGH": 2,
-      "MEDIUM": 8,
+      "MEDIUM": 9,
       "LOW": 0
     }
   },
