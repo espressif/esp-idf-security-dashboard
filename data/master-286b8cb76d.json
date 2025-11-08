@@ -1,6 +1,6 @@
 {
-  "release_version": "release/v5.3-4ecc140e33",
-  "scan_date": "2025-11-08T00:26:07.672022Z",
+  "release_version": "master-286b8cb76d",
+  "scan_date": "2025-11-08T00:26:39.299032Z",
   "tool_version": "0.21.0",
   "total_components": 0,
   "vulnerabilities": [
