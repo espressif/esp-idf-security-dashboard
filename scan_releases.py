@@ -75,6 +75,7 @@ def get_esp_idf_release_branches():
         return [b.strip() for b in env_branches.split(',')]
     return [
         'master',
+        'release/v6.0',
         'release/v5.5',
         'release/v5.4',
         'release/v5.3',
@@ -790,31 +791,41 @@ class ESPIDFSecurityScanner:
             return results
     
     def scan_all_v5_releases(self, use_unified_mode=True, prefer_git_over_docker=False):
-        """Scan all available v5.x tags and release branches efficiently"""
-        logger.info("Scanning ESP-IDF v5.x releases and branches...")
-        
-        # Get available v5.x tags and release branches, plus master branch
-        tags, branches = self.get_available_targets(target_patterns=["v5.", "master"])
-        release_branches = [b for b in branches if b.startswith("release/v5.")]
-        
+        """Scan all available v5.x+ tags and release branches efficiently"""
+        logger.info("Scanning ESP-IDF v5.x+ releases and branches...")
+
+        # Get available v5.x and v6.x tags and release branches, plus master branch
+        tags, branches = self.get_available_targets(target_patterns=["v5.", "v6.", "master"])
+        release_branches = [b for b in branches if b.startswith("release/v5.") or b.startswith("release/v6.")]
+
         # Add master branch if available
         if "master" in branches:
             release_branches.append("master")
+
+        # Merge in any additional branches from environment variable configuration
+        # This ensures branches like release/v6.0 are included even if not yet in remote
+        configured_branches = get_esp_idf_release_branches()
+        for branch in configured_branches:
+            if branch not in release_branches:
+                # Verify branch exists in remote before adding
+                if branch in branches or branch == "master":
+                    release_branches.append(branch)
+                    logger.info(f"Added configured branch: {branch}")
         
-        # Filter to v5.x tags only, excluding rc, dev, beta versions
+        # Filter to v5.x and v6.x tags, excluding rc, dev, beta versions
         # Note: Previously unsupported SBOM versions are now included to show "No SBOM support" status
-        v5_tags = [tag for tag in tags if tag.startswith("v5.") and 
-                   not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"])]
+        release_tags = [tag for tag in tags if (tag.startswith("v5.") or tag.startswith("v6.")) and
+                        not any(exclude in tag.lower() for exclude in ["rc", "dev", "beta"])]
         
-        logger.info(f"Found {len(v5_tags)} v5.x tags and {len(release_branches)} v5.x release branches")
-        
+        logger.info(f"Found {len(release_tags)} release tags and {len(release_branches)} release branches")
+
         if use_unified_mode:
             # Combine all targets for unified scanning
-            all_targets = v5_tags + release_branches
+            all_targets = release_tags + release_branches
             return self.scan_unified_targets(all_targets, prefer_git_over_docker)
         else:
             # Use traditional scanning approach
-            return self.scan_releases(v5_tags, include_branches=release_branches)
+            return self.scan_releases(release_tags, include_branches=release_branches)
 
 def main():
     parser = argparse.ArgumentParser(description="Scan ESP-IDF releases for security vulnerabilities")
@@ -833,7 +844,7 @@ def main():
     parser.add_argument("--batch-mode", action="store_true",
                        help="Use optimized batch scanning (single clone for multiple targets)")
     parser.add_argument("--scan-all-v5", action="store_true",
-                       help="Scan all available v5.x tags and release branches")
+                       help="Scan all available v5.x/v6.x tags and release branches")
     parser.add_argument("--unified-mode", action="store_true",
                        help="Use unified scanning (single clone for all targets)")
     parser.add_argument("--git-only", action="store_true",
