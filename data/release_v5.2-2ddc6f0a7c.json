@@ -1,6 +1,6 @@
 {
-  "release_version": "master-35e0c8a343",
-  "scan_date": "2026-01-13T00:41:36.027651Z",
+  "release_version": "release/v5.2-2ddc6f0a7c",
+  "scan_date": "2026-01-13T00:41:25.091235Z",
   "tool_version": "0.21.1",
   "total_components": 0,
   "vulnerabilities": [],
