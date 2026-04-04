@@ -1,9 +1,19 @@
 {
   "release_version": "v5.3.2",
-  "scan_date": "2026-04-03T00:49:15.766982Z",
+  "scan_date": "2026-04-04T00:41:42.421216Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2026-34872",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+    },
     {
       "cve_id": "CVE-2025-47917",
       "component": "mbed_tls",
@@ -23,6 +33,16 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
       "description": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
+    },
+    {
+      "cve_id": "CVE-2026-34874",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
     },
     {
       "cve_id": "CVE-2023-52160",
@@ -73,6 +93,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
       "description": "Mbed TLS through 3.6.4 has an Observable Timing Discrepancy.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-59438"
+    },
+    {
+      "cve_id": "CVE-2025-66442",
+      "component": "mbed_tls",
+      "component_version": "3.6.2",
+      "severity": "MEDIUM",
+      "score": "5.1",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
     },
     {
       "cve_id": "CVE-2025-49600",
@@ -126,11 +156,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 12,
+    "total_vulnerabilities": 15,
     "by_severity": {
-      "CRITICAL": 0,
-      "HIGH": 2,
-      "MEDIUM": 10,
+      "CRITICAL": 1,
+      "HIGH": 3,
+      "MEDIUM": 11,
       "LOW": 0
     }
   },

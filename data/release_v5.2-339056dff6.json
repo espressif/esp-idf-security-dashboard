@@ -1,13 +1,23 @@
 {
-  "release_version": "v6.0",
-  "scan_date": "2026-04-04T00:44:31.759120Z",
+  "release_version": "release/v5.2-339056dff6",
+  "scan_date": "2026-04-04T00:48:48.413540Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
     {
+      "cve_id": "CVE-2026-34872",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+    },
+    {
       "cve_id": "CVE-2026-34874",
       "component": "mbed_tls",
-      "component_version": "4.0.0",
+      "component_version": "3.6.5",
       "severity": "HIGH",
       "score": "7.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -17,7 +27,7 @@
     {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
-      "component_version": "4.0.0",
+      "component_version": "3.6.5",
       "severity": "MEDIUM",
       "score": "5.1",
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
@@ -26,9 +36,9 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 2,
+    "total_vulnerabilities": 3,
     "by_severity": {
-      "CRITICAL": 0,
+      "CRITICAL": 1,
       "HIGH": 1,
       "MEDIUM": 1,
       "LOW": 0
@@ -36,7 +46,7 @@
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }
