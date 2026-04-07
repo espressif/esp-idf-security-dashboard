@@ -1,6 +1,6 @@
 {
   "release_version": "v5.1.5",
-  "scan_date": "2026-04-06T00:35:48.144917Z",
+  "scan_date": "2026-04-07T00:41:14.074707Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
@@ -13,6 +13,26 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    },
+    {
+      "cve_id": "CVE-2026-34875",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
+    },
+    {
+      "cve_id": "CVE-2026-34877",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS versions from 2.19.0 up to 3.6.5, Mbed TLS 4.0.0. Insufficient protection of serialized SSL context or session structures allows an attacker who can modify the serialized structures to induce memory corruption, leading to arbitrary code execution. This is caused by Incorrect Use of Privileged APIs.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
     },
     {
       "cve_id": "CVE-2026-34872",
@@ -45,6 +65,26 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52496"
     },
     {
+      "cve_id": "CVE-2026-25835",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "HIGH",
+      "score": "7.7",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
+    },
+    {
+      "cve_id": "CVE-2026-25833",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Mbed TLS 3.5.0 to 3.6.5 fixed in 3.6.6 and 4.1.0 has a buffer overflow in the x509_inet_pton_ipv6() function",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25833"
+    },
+    {
       "cve_id": "CVE-2026-34874",
       "component": "mbed_tls",
       "component_version": "3.6.1",
@@ -53,6 +93,26 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
+    },
+    {
+      "cve_id": "CVE-2026-34871",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "MEDIUM",
+      "score": "6.7",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
+    },
+    {
+      "cve_id": "CVE-2026-25834",
+      "component": "mbed_tls",
+      "component_version": "3.6.1",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
     },
     {
       "cve_id": "CVE-2025-54764",
@@ -156,11 +216,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 15,
+    "total_vulnerabilities": 21,
     "by_severity": {
-      "CRITICAL": 2,
-      "HIGH": 3,
-      "MEDIUM": 10,
+      "CRITICAL": 4,
+      "HIGH": 5,
+      "MEDIUM": 12,
       "LOW": 0
     }
   },
