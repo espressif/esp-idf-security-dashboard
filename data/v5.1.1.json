@@ -1,6 +1,6 @@
 {
   "release_version": "v5.1.1",
-  "scan_date": "2026-04-07T00:37:17.177989Z",
+  "scan_date": "2026-04-08T00:48:17.614049Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
@@ -123,6 +123,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "Integer Overflow vulnerability in Mbed TLS 2.x before 2.28.7 and 3.x before 3.5.2, allows attackers to cause a denial of service (DoS) via mbedtls_x509_set_extension().",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23775"
+    },
+    {
+      "cve_id": "CVE-2026-34876",
+      "component": "mbed_tls",
+      "component_version": "3.4.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
     },
     {
       "cve_id": "CVE-2020-27209",
@@ -286,10 +296,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 28,
+    "total_vulnerabilities": 29,
     "by_severity": {
       "CRITICAL": 5,
-      "HIGH": 8,
+      "HIGH": 9,
       "MEDIUM": 13,
       "LOW": 2
     }

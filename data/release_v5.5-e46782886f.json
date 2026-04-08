@@ -1,0 +1,32 @@
+{
+  "release_version": "release/v5.5-e46782886f",
+  "scan_date": "2026-04-08T00:55:10.355845Z",
+  "tool_version": "1.0.1",
+  "total_components": 0,
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2025-66442",
+      "component": "mbed_tls",
+      "component_version": "3.6.6",
+      "severity": "MEDIUM",
+      "score": "5.1",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 1,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 1,
+      "LOW": 0
+    }
+  },
+  "metadata": {
+    "scanner": "esp-idf-security-dashboard",
+    "scan_method": "git-release-branch",
+    "docker_image": null
+  }
+}
