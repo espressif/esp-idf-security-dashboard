@@ -1,23 +1,13 @@
 {
-  "release_version": "release/v5.3-8842dc9610",
-  "scan_date": "2026-04-09T00:49:45.203405Z",
+  "release_version": "release/v6.0-d4bf404df6",
+  "scan_date": "2026-04-09T00:50:59.977271Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
     {
-      "cve_id": "CVE-2026-34875",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
-    },
-    {
       "cve_id": "CVE-2026-34877",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "CRITICAL",
       "score": "9.8",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
@@ -25,19 +15,9 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
     },
     {
-      "cve_id": "CVE-2026-34872",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
-    },
-    {
       "cve_id": "CVE-2026-34873",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "CRITICAL",
       "score": "9.1",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
@@ -47,7 +27,7 @@
     {
       "cve_id": "CVE-2026-25835",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "HIGH",
       "score": "7.7",
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
@@ -57,7 +37,7 @@
     {
       "cve_id": "CVE-2026-25833",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "HIGH",
       "score": "7.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -67,7 +47,7 @@
     {
       "cve_id": "CVE-2026-34874",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "HIGH",
       "score": "7.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -75,29 +55,9 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
     },
     {
-      "cve_id": "CVE-2026-34876",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
-    },
-    {
-      "cve_id": "CVE-2026-34871",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "MEDIUM",
-      "score": "6.7",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
-    },
-    {
       "cve_id": "CVE-2026-25834",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "MEDIUM",
       "score": "6.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
@@ -107,7 +67,7 @@
     {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "component_version": "4.0.0",
       "severity": "MEDIUM",
       "score": "5.1",
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
@@ -116,11 +76,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 11,
+    "total_vulnerabilities": 7,
     "by_severity": {
-      "CRITICAL": 4,
-      "HIGH": 4,
-      "MEDIUM": 3,
+      "CRITICAL": 2,
+      "HIGH": 3,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
