@@ -1,19 +1,9 @@
 {
   "release_version": "master-47faecc3e4",
-  "scan_date": "2026-04-27T01:04:15.130351Z",
+  "scan_date": "2026-04-28T01:05:24.014672Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2026-34875",
-      "component": "tf-psa-crypto",
-      "component_version": "1.0.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
-    },
     {
       "cve_id": "CVE-2026-34877",
       "component": "mbed_tls",
@@ -25,14 +15,14 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
     },
     {
-      "cve_id": "CVE-2026-34872",
+      "cve_id": "CVE-2026-34875",
       "component": "tf-psa-crypto",
       "component_version": "1.0.0",
       "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
     },
     {
       "cve_id": "CVE-2026-34873",
@@ -45,9 +35,19 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34873"
     },
     {
-      "cve_id": "CVE-2026-25835",
+      "cve_id": "CVE-2026-34872",
       "component": "tf-psa-crypto",
       "component_version": "1.0.0",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+    },
+    {
+      "cve_id": "CVE-2026-25835",
+      "component": "mbed_tls",
+      "component_version": "4.0.0",
       "severity": "HIGH",
       "score": "7.7",
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
@@ -56,8 +56,8 @@
     },
     {
       "cve_id": "CVE-2026-25835",
-      "component": "mbed_tls",
-      "component_version": "4.0.0",
+      "component": "tf-psa-crypto",
+      "component_version": "1.0.0",
       "severity": "HIGH",
       "score": "7.7",
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",

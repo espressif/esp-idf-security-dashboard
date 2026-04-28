@@ -1,6 +1,6 @@
 {
   "release_version": "v5.3.2",
-  "scan_date": "2026-04-27T00:46:01.760630Z",
+  "scan_date": "2026-04-28T00:45:28.152504Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
@@ -115,16 +115,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
     },
     {
-      "cve_id": "CVE-2023-52160",
-      "component": "wpa_supplicant",
-      "component_version": "2.10",
-      "severity": "MEDIUM",
-      "score": "6.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
-      "description": "The implementation of PEAP in wpa_supplicant through 2.10 allows authentication bypass. For a successful attack, wpa_supplicant must be configured to not verify the network's TLS certificate during Phase 1 authentication, and an eap_peap_decrypt vulnerability can then be abused to skip Phase 2 authentication. The attack vector is sending an EAP-TLV Success packet instead of starting Phase 2. This allows an adversary to impersonate Enterprise Wi-Fi networks.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-52160"
-    },
-    {
       "cve_id": "CVE-2026-25834",
       "component": "mbed_tls",
       "component_version": "3.6.2",
@@ -133,6 +123,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
       "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
+    },
+    {
+      "cve_id": "CVE-2023-52160",
+      "component": "wpa_supplicant",
+      "component_version": "2.10",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "description": "The implementation of PEAP in wpa_supplicant through 2.10 allows authentication bypass. For a successful attack, wpa_supplicant must be configured to not verify the network's TLS certificate during Phase 1 authentication, and an eap_peap_decrypt vulnerability can then be abused to skip Phase 2 authentication. The attack vector is sending an EAP-TLV Success packet instead of starting Phase 2. This allows an adversary to impersonate Enterprise Wi-Fi networks.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-52160"
     },
     {
       "cve_id": "CVE-2025-54764",
