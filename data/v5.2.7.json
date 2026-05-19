@@ -1,6 +1,6 @@
 {
-  "release_version": "master-fce70533fa",
-  "scan_date": "2026-05-19T01:11:16.681361Z",
+  "release_version": "v5.2.7",
+  "scan_date": "2026-05-19T01:08:35.254421Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [],
@@ -15,7 +15,7 @@
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-release-branch",
+    "scan_method": "git-tag",
     "docker_image": null
   }
 }
