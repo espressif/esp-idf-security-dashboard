@@ -1,29 +1,9 @@
 {
   "release_version": "v5.1.1",
-  "scan_date": "2026-06-05T01:02:55.084536Z",
+  "scan_date": "2026-06-06T01:06:15.341507Z",
   "tool_version": "1.0.1",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2023-45199",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "Mbed TLS 3.2.x through 3.4.x before 3.5 has a Buffer Overflow that can lead to remote Code execution.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-45199"
-    },
-    {
-      "cve_id": "CVE-2024-45159",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.1. With TLS 1.3, when a server enables optional authentication of the client, if the client-provided certificate does not have appropriate values in if keyUsage or extKeyUsage extensions, then the return value of mbedtls_ssl_get_verify_result() would incorrectly have the MBEDTLS_X509_BADCERT_KEY_USAGE and MBEDTLS_X509_BADCERT_KEY_USAGE bits clear. As a result, an attacker that had a certificate valid for uses other than TLS client authentication would nonetheless be able to use it for TLS client authentication. Only TLS 1.3 servers were affected, and only with optional authentication (with required authentication, the handshake would be aborted with a fatal alert).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-45159"
-    },
     {
       "cve_id": "CVE-2026-34877",
       "component": "mbed_tls",
@@ -33,16 +13,6 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "An issue was discovered in Mbed TLS versions from 2.19.0 up to 3.6.5, Mbed TLS 4.0.0. Insufficient protection of serialized SSL context or session structures allows an attacker who can modify the serialized structures to induce memory corruption, leading to arbitrary code execution. This is caused by Incorrect Use of Privileged APIs.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
-    },
-    {
-      "cve_id": "CVE-2024-30166",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
-      "description": "In Mbed TLS 3.3.0 through 3.5.2 before 3.6.0, a malicious client can cause information disclosure or a denial of service because of a stack buffer over-read (of less than 256 bytes) in a TLS 1.3 server via a TLS 3.1 ClientHello.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30166"
     },
     {
       "cve_id": "CVE-2026-34872",
@@ -65,16 +35,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-47917"
     },
     {
-      "cve_id": "CVE-2024-28960",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "HIGH",
-      "score": "8.2",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
-      "description": "An issue was discovered in Mbed TLS 2.18.0 through 2.28.x before 2.28.8 and 3.x before 3.6.0, and Mbed Crypto. The PSA Crypto API mishandles shared memory.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28960"
-    },
-    {
       "cve_id": "CVE-2025-52496",
       "component": "mbed_tls",
       "component_version": "3.4.0",
@@ -95,16 +55,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
     },
     {
-      "cve_id": "CVE-2023-43615",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "Mbed TLS 2.x before 2.28.5 and 3.x before 3.5.0 has a Buffer Overflow.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-43615"
-    },
-    {
       "cve_id": "CVE-2023-52353",
       "component": "mbed_tls",
       "component_version": "3.4.0",
@@ -113,26 +63,6 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
       "description": "An issue was discovered in Mbed TLS through 3.5.1. In mbedtls_ssl_session_reset, the maximum negotiable TLS version is mishandled. For example, if the last connection negotiated TLS 1.2, then 1.2 becomes the new maximum.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-52353"
-    },
-    {
-      "cve_id": "CVE-2024-23775",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-      "description": "Integer Overflow vulnerability in Mbed TLS 2.x before 2.28.7 and 3.x before 3.5.2, allows attackers to cause a denial of service (DoS) via mbedtls_x509_set_extension().",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23775"
-    },
-    {
-      "cve_id": "CVE-2026-34876",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
     },
     {
       "cve_id": "CVE-2020-27209",
@@ -155,16 +85,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
     },
     {
-      "cve_id": "CVE-2026-25834",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "6.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
-      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
-    },
-    {
       "cve_id": "CVE-2025-54764",
       "component": "mbed_tls",
       "component_version": "3.4.0",
@@ -173,36 +93,6 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
-    },
-    {
-      "cve_id": "CVE-2024-23170",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "5.5",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
-      "description": "An issue was discovered in Mbed TLS 2.x before 2.28.7 and 3.x before 3.5.2. There was a timing side channel in RSA private operations. This side channel could be sufficient for a local attacker to recover the plaintext. It requires the attacker to send a large number of messages for decryption, as described in \"Everlasting ROBOT: the Marvin Attack\" by Hubert Kario.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23170"
-    },
-    {
-      "cve_id": "CVE-2025-27809",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "5.4",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
-      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, on the client side, accepts servers that have trusted certificates for arbitrary hostnames unless the TLS client application calls mbedtls_ssl_set_hostname.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27809"
-    },
-    {
-      "cve_id": "CVE-2025-27810",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "5.4",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
-      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, in some cases of failed memory allocation or hardware errors, uses uninitialized stack memory to compose the TLS Finished message, potentially leading to authentication bypasses such as replays.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27810"
     },
     {
       "cve_id": "CVE-2025-59438",
@@ -215,16 +105,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-59438"
     },
     {
-      "cve_id": "CVE-2024-45157",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "5.1",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "An issue was discovered in Mbed TLS before 2.28.9 and 3.x before 3.6.1, in which the user-selected algorithm is not used. Unlike previously documented, enabling MBEDTLS_PSA_HMAC_DRBG_MD_TYPE does not cause the PSA subsystem to use HMAC_DRBG: it uses HMAC_DRBG only when MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG and MBEDTLS_CTR_DRBG_C are disabled.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-45157"
-    },
-    {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
       "component_version": "3.4.0",
@@ -233,26 +113,6 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
-    },
-    {
-      "cve_id": "CVE-2025-49600",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "4.9",
-      "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N",
-      "description": "In MbedTLS 3.3.0 before 3.6.4, mbedtls_lms_verify may accept invalid signatures if hash computation fails and internal errors go unchecked, enabling LMS (Leighton-Micali Signature) forgery in a fault scenario. Specifically, unchecked return values in mbedtls_lms_verify allow an attacker (who can induce a hardware hash accelerator fault) to bypass LMS signature verification by reusing stale stack data, resulting in acceptance of an invalid signature. In mbedtls_lms_verify, the return values of the internal Merkle tree functions create_merkle_leaf_value and create_merkle_internal_value are not checked. These functions return an integer that indicates whether the call succeeded or not. If a failure occurs, the output buffer (Tc_candidate_root_node) may remain uninitialized, and the result of the signature verification is unpredictable. When the software implementation of SHA-256 is used, these functions will not fail. However, with hardware-accelerated hashing, an attacker could use fault injection against the accelerator to bypass verification.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-49600"
-    },
-    {
-      "cve_id": "CVE-2025-49601",
-      "component": "mbed_tls",
-      "component_version": "3.4.0",
-      "severity": "MEDIUM",
-      "score": "4.8",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:L",
-      "description": "In MbedTLS 3.3.0 before 3.6.4, mbedtls_lms_import_public_key does not check that the input buffer is at least 4 bytes before reading a 32-bit field, allowing a possible out-of-bounds read on truncated input. Specifically, an out-of-bounds read in mbedtls_lms_import_public_key allows context-dependent attackers to trigger a crash or limited adjacent-memory disclosure by supplying a truncated LMS (Leighton-Micali Signature) public-key buffer under four bytes. An LMS public key starts with a 4-byte type indicator. The function mbedtls_lms_import_public_key reads this type indicator before validating the size of its input.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-49601"
     },
     {
       "cve_id": "CVE-2025-52497",
@@ -296,11 +156,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 29,
+    "total_vulnerabilities": 15,
     "by_severity": {
-      "CRITICAL": 5,
-      "HIGH": 9,
-      "MEDIUM": 13,
+      "CRITICAL": 2,
+      "HIGH": 5,
+      "MEDIUM": 6,
       "LOW": 2
     }
   },
