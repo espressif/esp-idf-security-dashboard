@@ -1,7 +1,7 @@
 {
   "release_version": "v5.3.3",
-  "scan_date": "2026-06-10T01:06:56.269388Z",
-  "tool_version": "1.0.1",
+  "scan_date": "2026-06-11T01:07:12.059780Z",
+  "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
     {
@@ -53,6 +53,16 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
+    },
+    {
+      "cve_id": "CVE-2025-52471",
+      "component": "esp-idf",
+      "component_version": "5.3.3",
+      "severity": "HIGH",
+      "score": "7.2",
+      "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. An integer underflow vulnerability has been identified in the ESP-NOW protocol implementation within the ESP Wi-Fi component of versions 5.4.1, 5.3.3, 5.2.5, and 5.1.6 of the ESP-IDF framework. This issue stems from insufficient validation of user-supplied data length in the packet receive function. Under certain conditions, this may lead to out-of-bounds memory access and may allow arbitrary memory write operations. On systems without a memory protection scheme, this behavior could potentially be used to achieve remote code execution (RCE) on the target device. In versions 5.4.2, 5.3.4, 5.2.6, and 5.1.6, ESP-NOW has added more comprehensive validation logic on user-supplied data length during packet reception to prevent integer underflow caused by negative value calculations. For ESP-IDF v5.3 and earlier, a workaround can be applied by validating that the `data_len` parameter received in the RX callback (registered via `esp_now_register_recv_cb()`) is a positive value before further processing. For ESP-IDF v5.4 and later, no application-level workaround is available. Users are advised to upgrade to a patched version of ESP-IDF to take advantage of the built-in mitigation.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52471"
     },
     {
       "cve_id": "CVE-2026-34871",
@@ -113,15 +123,25 @@
       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:N/A:L",
       "description": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigger conflicting data with val.p of NULL but val.len greater than zero.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-48965"
+    },
+    {
+      "cve_id": "CVE-2025-66409",
+      "component": "esp-idf",
+      "component_version": "5.3.3",
+      "severity": "LOW",
+      "score": "2.7",
+      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 11,
+    "total_vulnerabilities": 13,
     "by_severity": {
       "CRITICAL": 2,
-      "HIGH": 3,
+      "HIGH": 4,
       "MEDIUM": 6,
-      "LOW": 0
+      "LOW": 1
     }
   },
   "metadata": {

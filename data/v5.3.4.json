@@ -1,7 +1,7 @@
 {
   "release_version": "v5.3.4",
-  "scan_date": "2026-06-10T01:03:06.349767Z",
-  "tool_version": "1.0.1",
+  "scan_date": "2026-06-11T01:10:48.195836Z",
+  "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
     {
@@ -45,6 +45,36 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
     },
     {
+      "cve_id": "CVE-2026-25507",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "MEDIUM",
+      "score": "6.3",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.2, 5.4.3, 5.3.4, 5.2.6, and 5.1.6, a use-after-free vulnerability was reported in the BLE provisioning transport (protocomm_ble) layer. The issue can be triggered by a remote BLE client while the device is in provisioning mode. The vulnerability occurred when provisioning was stopped with keep_ble_on = true. In this configuration, internal protocomm_ble state and GATT metadata were freed while the BLE stack and GATT services remained active. Subsequent BLE read or write callbacks dereferenced freed memory, allowing a connected or newly connected client to trigger invalid memory acces. This issue has been patched in versions 5.5.3, 5.4.4, 5.3.5, 5.2.7, and 5.1.7.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25507"
+    },
+    {
+      "cve_id": "CVE-2026-25508",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "MEDIUM",
+      "score": "6.3",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.2, 5.4.3, 5.3.4, 5.2.6, and 5.1.6, an out-of-bounds read vulnerability was reported in the BLE ATT Prepare Write handling of the BLE provisioning transport (protocomm_ble). The issue can be triggered by a remote BLE client while the device is in provisioning mode. The transport accumulated prepared-write fragments in a fixed-size buffer but incorrectly tracked the cumulative length. By sending repeated prepare write requests with overlapping offsets, a remote client could cause the reported length to exceed the allocated buffer size. This inflated length was then passed to provisioning handlers during execute-write processing, resulting in an out-of-bounds read and potential memory corruption. This issue has been patched in versions 5.5.3, 5.4.4, 5.3.5, 5.2.7, and 5.1.7.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25508"
+    },
+    {
+      "cve_id": "CVE-2026-25532",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "MEDIUM",
+      "score": "6.3",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.2, 5.4.3, 5.3.4, 5.2.6, and 5.1.6, a vulnerability exists in the WPS (Wi-Fi Protected Setup) Enrollee implementation where malformed EAP-WSC packets with truncated payloads can cause integer underflow during fragment length calculation. When processing EAP-Expanded (WSC) messages, the code computes frag_len by subtracting header sizes from the total packet length. If an attacker sends a packet where the EAP Length field covers only the header and flags but omits the expected payload (such as the 2-byte Message Length field when WPS_MSG_FLAG_LEN is set), frag_len becomes negative. This negative value is then implicitly cast to size_t when passed to wpabuf_put_data(), resulting in a very large unsigned value. This issue has been patched in versions 5.5.3, 5.4.4, 5.3.5, 5.2.7, and 5.1.7.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25532"
+    },
+    {
       "cve_id": "CVE-2025-54764",
       "component": "mbed_tls",
       "component_version": "3.6.4",
@@ -53,6 +83,16 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
+    },
+    {
+      "cve_id": "CVE-2025-68474",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "MEDIUM",
+      "score": "6.1",
+      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the avrc_vendor_msg() function of the ESP-IDF BlueDroid AVRCP stack, the allocated buffer size was validated using AVRC_MIN_CMD_LEN (20 bytes). However, the actual fixed header data written before the vendor payload exceeds this value. This totals 29 bytes written before p_msg->p_vendor_data is copied. Using the old AVRC_MIN_CMD_LEN could allow an out-of-bounds write if vendor_len approaches the buffer limit. For commands where vendor_len is large, the original buffer allocation may be insufficient, causing writes beyond the allocated memory. This can lead to memory corruption, crashes, or other undefined behavior. The overflow could be larger when assertions are disabled.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68474"
     },
     {
       "cve_id": "CVE-2025-59438",
@@ -73,15 +113,35 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
+    },
+    {
+      "cve_id": "CVE-2025-66409",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "LOW",
+      "score": "2.7",
+      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
+    },
+    {
+      "cve_id": "CVE-2025-68473",
+      "component": "esp-idf",
+      "component_version": "5.3.4",
+      "severity": "NONE",
+      "score": "0.0",
+      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the ESP-IDF Bluetooth host stack (BlueDroid), the function bta_dm_sdp_result() used a fixed-size array uuid_list[32][MAX_UUID_SIZE] to store discovered service UUIDs during the SDP (Service Discovery Protocol) process. On modern Bluetooth devices, it is possible for the number of available services to exceed this fixed limit (32). In such cases, if more than 32 services are discovered, subsequent writes to uuid_list could exceed the bounds of the array, resulting in a potential out-of-bounds write condition.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68473"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 7,
+    "total_vulnerabilities": 13,
     "by_severity": {
       "CRITICAL": 2,
       "HIGH": 1,
-      "MEDIUM": 4,
-      "LOW": 0
+      "MEDIUM": 8,
+      "LOW": 1
     }
   },
   "metadata": {
