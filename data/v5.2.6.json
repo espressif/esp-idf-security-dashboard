@@ -1,6 +1,6 @@
 {
   "release_version": "v5.2.6",
-  "scan_date": "2026-06-11T00:58:36.553712Z",
+  "scan_date": "2026-06-12T01:02:45.975133Z",
   "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -33,6 +33,26 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
+    },
+    {
+      "cve_id": "CVE-2026-45541",
+      "component": "esp-idf",
+      "component_version": "5.2.6",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.4, and 6.0, a NULL-pointer dereference exists in the WebSocket subprotocol-negotiation path of the esp_http_server component. While parsing the client-supplied Sec-WebSocket-Protocol request header during the WebSocket handshake, the tokenisation result is dereferenced without a NULL check, so a malformed header value can crash the server before any application-level authentication runs. This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.5, and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45541"
+    },
+    {
+      "cve_id": "CVE-2026-45542",
+      "component": "esp-idf",
+      "component_version": "5.2.6",
+      "severity": "HIGH",
+      "score": "7.1",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.4, and 6.0, a heap buffer overflow exists in the Security Scheme 2 (SRP6a) session-setup path of the protocomm component. The first-phase handler (handle_session_command0() in components/protocomm/src/security/security2.c) trusts the length of a client-supplied protobuf field for the SRP6a username and copies it into a buffer whose size is derived from a narrower destination type. The resulting truncation-versus-copy asymmetry corrupts the heap when an oversized value is supplied. This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.5, and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45542"
     },
     {
       "cve_id": "CVE-2026-34871",
@@ -125,6 +145,16 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
     },
     {
+      "cve_id": "CVE-2026-46532",
+      "component": "esp-idf",
+      "component_version": "5.2.6",
+      "severity": "MEDIUM",
+      "score": "4.6",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.3, and 6.0, an out-of-bounds read exists in the BlueDroid AVRCP vendor-command parser (avrc_pars_vendor_cmd() in components/bt/host/bluedroid/stack/avrc/avrc_pars_tg.c). This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.4, and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-46532"
+    },
+    {
       "cve_id": "CVE-2025-66409",
       "component": "esp-idf",
       "component_version": "5.2.6",
@@ -146,11 +176,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 14,
+    "total_vulnerabilities": 17,
     "by_severity": {
       "CRITICAL": 2,
-      "HIGH": 1,
-      "MEDIUM": 9,
+      "HIGH": 3,
+      "MEDIUM": 10,
       "LOW": 1
     }
   },

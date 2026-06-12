@@ -1,6 +1,6 @@
 {
   "release_version": "v5.5.3",
-  "scan_date": "2026-06-11T01:06:19.174380Z",
+  "scan_date": "2026-06-12T01:12:17.894221Z",
   "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -53,14 +53,24 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
+    },
+    {
+      "cve_id": "CVE-2026-46532",
+      "component": "esp-idf",
+      "component_version": "5.5.3",
+      "severity": "MEDIUM",
+      "score": "4.6",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.3, and 6.0, an out-of-bounds read exists in the BlueDroid AVRCP vendor-command parser (avrc_pars_vendor_cmd() in components/bt/host/bluedroid/stack/avrc/avrc_pars_tg.c). This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.4, and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-46532"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 5,
+    "total_vulnerabilities": 6,
     "by_severity": {
       "CRITICAL": 2,
       "HIGH": 1,
-      "MEDIUM": 2,
+      "MEDIUM": 3,
       "LOW": 0
     }
   },

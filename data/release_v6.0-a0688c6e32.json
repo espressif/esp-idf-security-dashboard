@@ -1,15 +1,26 @@
 {
   "release_version": "release/v6.0-a0688c6e32",
-  "scan_date": "2026-06-11T01:16:47.206935Z",
+  "scan_date": "2026-06-12T01:20:53.937668Z",
   "tool_version": "1.1.0",
   "total_components": 0,
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2026-45160",
+      "component": "esp-idf",
+      "component_version": "6.0.1",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.7, 5.3.5, 5.4.4, 5.5.4, and 6.0.1, an out-of-bounds read flaw exists in the DHCP server option parser (parse_options() in components/lwip/apps/dhcpserver/dhcpserver.c) shipped with ESP-IDF's lwIP component. The parser walks the BOOTP/DHCP options field without validating that each option's length byte and declared payload length stay within the received packet buffer. A crafted DHCP request can cause the parser to read past the end of the options buffer into adjacent heap memory. The issue affects the DHCP server used by ESP-IDF's SoftAP and any configuration where the device runs as a DHCP server on a local network. This issue has been patched in versions 5.2.8, 5.3.6, 5.4.5, 5.5.5, and 6.0.2.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
+    }
+  ],
   "summary": {
-    "total_vulnerabilities": 0,
+    "total_vulnerabilities": 1,
     "by_severity": {
       "CRITICAL": 0,
       "HIGH": 0,
-      "MEDIUM": 0,
+      "MEDIUM": 1,
       "LOW": 0
     }
   },
