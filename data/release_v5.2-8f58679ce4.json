@@ -1,13 +1,13 @@
 {
-  "release_version": "v6.0.1",
-  "scan_date": "2026-06-18T01:10:46.524531Z",
+  "release_version": "release/v5.2-8f58679ce4",
+  "scan_date": "2026-06-18T01:23:06.972110Z",
   "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
     {
       "cve_id": "CVE-2026-45160",
       "component": "esp-idf",
-      "component_version": "6.0.1",
+      "component_version": "5.2.7",
       "severity": "MEDIUM",
       "score": "6.5",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -15,14 +15,14 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
     },
     {
-      "cve_id": "CVE-2025-66442",
-      "component": "mbed_tls",
-      "component_version": "4.0.0",
+      "cve_id": "CVE-2025-55297",
+      "component": "esp-idf",
+      "component_version": "5.2.7",
       "severity": "MEDIUM",
-      "score": "5.1",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
+      "score": "5.2",
+      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. The BluFi example bundled in ESP-IDF was vulnerable to memory overflows in two areas: Wi-Fi credential handling and Diffie\u2013Hellman key exchange. This vulnerability is fixed in 5.4.1, 5.3.3, 5.1.6, and 5.0.9.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-55297"
     }
   ],
   "summary": {
@@ -36,7 +36,7 @@
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }
