@@ -1,26 +1,36 @@
 {
-  "release_version": "release/v6.0-839352f836",
-  "scan_date": "2026-06-19T01:25:44.142569Z",
+  "release_version": "release/v5.2-bb0dcaad77",
+  "scan_date": "2026-06-19T01:25:14.259055Z",
   "tool_version": "1.1.0",
   "total_components": 0,
   "vulnerabilities": [
     {
       "cve_id": "CVE-2026-45160",
       "component": "esp-idf",
-      "component_version": "6.0.1",
+      "component_version": "5.2.7",
       "severity": "MEDIUM",
       "score": "6.5",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.7, 5.3.5, 5.4.4, 5.5.4, and 6.0.1, an out-of-bounds read flaw exists in the DHCP server option parser (parse_options() in components/lwip/apps/dhcpserver/dhcpserver.c) shipped with ESP-IDF's lwIP component. The parser walks the BOOTP/DHCP options field without validating that each option's length byte and declared payload length stay within the received packet buffer. A crafted DHCP request can cause the parser to read past the end of the options buffer into adjacent heap memory. The issue affects the DHCP server used by ESP-IDF's SoftAP and any configuration where the device runs as a DHCP server on a local network. This issue has been patched in versions 5.2.8, 5.3.6, 5.4.5, 5.5.5, and 6.0.2.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
+    },
+    {
+      "cve_id": "CVE-2025-55297",
+      "component": "esp-idf",
+      "component_version": "5.2.7",
+      "severity": "MEDIUM",
+      "score": "5.2",
+      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. The BluFi example bundled in ESP-IDF was vulnerable to memory overflows in two areas: Wi-Fi credential handling and Diffie\u2013Hellman key exchange. This vulnerability is fixed in 5.4.1, 5.3.3, 5.1.6, and 5.0.9.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-55297"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 1,
+    "total_vulnerabilities": 2,
     "by_severity": {
       "CRITICAL": 0,
       "HIGH": 0,
-      "MEDIUM": 1,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
