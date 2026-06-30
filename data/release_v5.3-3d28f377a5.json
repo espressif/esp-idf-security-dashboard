@@ -1,13 +1,13 @@
 {
-  "release_version": "release/v5.4-63329dbeb2",
-  "scan_date": "2026-06-30T01:14:48.337372Z",
+  "release_version": "release/v5.3-3d28f377a5",
+  "scan_date": "2026-06-30T01:11:46.282610Z",
   "tool_version": "1.2.0",
   "total_components": 0,
   "vulnerabilities": [
     {
       "cve_id": "CVE-2026-45541",
       "component": "esp-idf",
-      "component_version": "5.4.4",
+      "component_version": "5.3.5",
       "severity": "HIGH",
       "score": "7.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -17,7 +17,7 @@
     {
       "cve_id": "CVE-2026-45542",
       "component": "esp-idf",
-      "component_version": "5.4.4",
+      "component_version": "5.3.5",
       "severity": "HIGH",
       "score": "7.1",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
@@ -27,7 +27,7 @@
     {
       "cve_id": "CVE-2026-45160",
       "component": "esp-idf",
-      "component_version": "5.4.4",
+      "component_version": "5.3.5",
       "severity": "MEDIUM",
       "score": "6.5",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -37,7 +37,7 @@
     {
       "cve_id": "CVE-2026-46532",
       "component": "esp-idf",
-      "component_version": "5.4.4",
+      "component_version": "5.3.5",
       "severity": "MEDIUM",
       "score": "4.6",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L",
