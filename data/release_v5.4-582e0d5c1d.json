@@ -1,23 +1,13 @@
 {
-  "release_version": "release/v5.5-bb2188bfb8",
-  "scan_date": "2026-07-01T01:18:43.844520Z",
+  "release_version": "release/v5.4-582e0d5c1d",
+  "scan_date": "2026-07-01T01:16:35.500038Z",
   "tool_version": "1.2.0",
   "total_components": 0,
   "vulnerabilities": [
     {
-      "cve_id": "CVE-2026-45328",
-      "component": "esp-idf",
-      "component_version": "5.5.4",
-      "severity": "CRITICAL",
-      "score": "9.3",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, the esp_tee component exposes secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c that bridge calls from the user application (i.e. the REE) to TEE-protected hardware peripherals (AES, SHA, ECC, HMAC, SPI, MMU, WDT) and to the security feature like attestation, OTA updates, secure storage. This issue has been patched in versions 5.5.5 and 6.0.1.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45328"
-    },
-    {
       "cve_id": "CVE-2026-45541",
       "component": "esp-idf",
-      "component_version": "5.5.4",
+      "component_version": "5.4.4",
       "severity": "HIGH",
       "score": "7.5",
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -25,19 +15,9 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45541"
     },
     {
-      "cve_id": "CVE-2026-45329",
-      "component": "esp-idf",
-      "component_version": "5.5.4",
-      "severity": "HIGH",
-      "score": "7.1",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, several ESP-TEE secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c validated only some of the caller-supplied pointer arguments, leaving input pointer arguments unchecked. Because the underlying TEE-protected hardware peripherals (e.g., ECC, SHA, SPI) run in RISC-V machine mode (M-mode) with full address-space access, a caller could supply pointers into TEE-exclusive memory as inputs, causing the peripheral to read TEE memory and return results derived from it to the REE. Depending on the wrapper, the result contains raw bytes from TEE memory, a computed function of TEE memory recoverable through repeated calls, or a single bit per call that forms an oracle for incremental disclosure of TEE-resident sensitive data. This issue has been patched in versions 5.5.5 and 6.0.1.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45329"
-    },
-    {
       "cve_id": "CVE-2026-45542",
       "component": "esp-idf",
-      "component_version": "5.5.4",
+      "component_version": "5.4.4",
       "severity": "HIGH",
       "score": "7.1",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
@@ -47,20 +27,30 @@
     {
       "cve_id": "CVE-2026-45160",
       "component": "esp-idf",
-      "component_version": "5.5.4",
+      "component_version": "5.4.4",
       "severity": "MEDIUM",
       "score": "6.5",
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.7, 5.3.5, 5.4.4, 5.5.4, and 6.0.1, an out-of-bounds read flaw exists in the DHCP server option parser (parse_options() in components/lwip/apps/dhcpserver/dhcpserver.c) shipped with ESP-IDF's lwIP component. The parser walks the BOOTP/DHCP options field without validating that each option's length byte and declared payload length stay within the received packet buffer. A crafted DHCP request can cause the parser to read past the end of the options buffer into adjacent heap memory. The issue affects the DHCP server used by ESP-IDF's SoftAP and any configuration where the device runs as a DHCP server on a local network. This issue has been patched in versions 5.2.8, 5.3.6, 5.4.5, 5.5.5, and 6.0.2.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
+    },
+    {
+      "cve_id": "CVE-2026-46532",
+      "component": "esp-idf",
+      "component_version": "5.4.4",
+      "severity": "MEDIUM",
+      "score": "4.6",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.3, and 6.0, an out-of-bounds read exists in the BlueDroid AVRCP vendor-command parser (avrc_pars_vendor_cmd() in components/bt/host/bluedroid/stack/avrc/avrc_pars_tg.c). This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.4, and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-46532"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 5,
+    "total_vulnerabilities": 4,
     "by_severity": {
-      "CRITICAL": 1,
-      "HIGH": 3,
-      "MEDIUM": 1,
+      "CRITICAL": 0,
+      "HIGH": 2,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
