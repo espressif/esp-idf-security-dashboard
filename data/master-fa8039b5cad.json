@@ -1,6 +1,6 @@
 {
-  "release_version": "v6.0.2",
-  "scan_date": "2026-07-03T00:54:04.032539Z",
+  "release_version": "master-fa8039b5cad",
+  "scan_date": "2026-07-03T01:06:56.023242Z",
   "tool_version": "1.2.0",
   "total_components": 0,
   "vulnerabilities": [],
@@ -15,7 +15,7 @@
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }

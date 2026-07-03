@@ -1,6 +1,6 @@
 {
-  "release_version": "v5.5",
-  "scan_date": "2026-07-03T00:53:00.880029Z",
+  "release_version": "release/v5.0-d9f9b7d8ed3",
+  "scan_date": "2026-07-03T01:06:25.958889Z",
   "tool_version": "1.2.0",
   "total_components": 0,
   "vulnerabilities": [
@@ -85,6 +85,16 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-59438"
     },
     {
+      "cve_id": "CVE-2025-55297",
+      "component": "esp-idf",
+      "component_version": "5.0.8",
+      "severity": "MEDIUM",
+      "score": "5.2",
+      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. The BluFi example bundled in ESP-IDF was vulnerable to memory overflows in two areas: Wi-Fi credential handling and Diffie\u2013Hellman key exchange. This vulnerability is fixed in 5.4.1, 5.3.3, 5.1.6, and 5.0.9.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-55297"
+    },
+    {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
       "component_version": "3.6.3",
@@ -117,7 +127,7 @@
     {
       "cve_id": "CVE-2025-66409",
       "component": "esp-idf",
-      "component_version": "5.5.0",
+      "component_version": "5.0.8",
       "severity": "LOW",
       "score": "2.7",
       "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
@@ -126,17 +136,17 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 12,
+    "total_vulnerabilities": 13,
     "by_severity": {
       "CRITICAL": 2,
       "HIGH": 3,
-      "MEDIUM": 6,
+      "MEDIUM": 7,
       "LOW": 1
     }
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }

@@ -1,39 +1,9 @@
 {
-  "release_version": "v5.3.5",
-  "scan_date": "2026-07-03T01:03:56.289833Z",
+  "release_version": "release/v5.3-de77e11ec67",
+  "scan_date": "2026-07-03T01:04:41.875078Z",
   "tool_version": "1.2.0",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2026-34877",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS versions from 2.19.0 up to 3.6.5, Mbed TLS 4.0.0. Insufficient protection of serialized SSL context or session structures allows an attacker who can modify the serialized structures to induce memory corruption, leading to arbitrary code execution. This is caused by Incorrect Use of Privileged APIs.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
-    },
-    {
-      "cve_id": "CVE-2026-34872",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
-    },
-    {
-      "cve_id": "CVE-2026-25835",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.7",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
-    },
     {
       "cve_id": "CVE-2026-45541",
       "component": "esp-idf",
@@ -55,16 +25,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45542"
     },
     {
-      "cve_id": "CVE-2026-34871",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "MEDIUM",
-      "score": "6.7",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
-    },
-    {
       "cve_id": "CVE-2026-45160",
       "component": "esp-idf",
       "component_version": "5.3.5",
@@ -73,16 +33,6 @@
       "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.7, 5.3.5, 5.4.4, 5.5.4, and 6.0.1, an out-of-bounds read flaw exists in the DHCP server option parser (parse_options() in components/lwip/apps/dhcpserver/dhcpserver.c) shipped with ESP-IDF's lwIP component. The parser walks the BOOTP/DHCP options field without validating that each option's length byte and declared payload length stay within the received packet buffer. A crafted DHCP request can cause the parser to read past the end of the options buffer into adjacent heap memory. The issue affects the DHCP server used by ESP-IDF's SoftAP and any configuration where the device runs as a DHCP server on a local network. This issue has been patched in versions 5.2.8, 5.3.6, 5.4.5, 5.5.5, and 6.0.2.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
-    },
-    {
-      "cve_id": "CVE-2025-66442",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "MEDIUM",
-      "score": "5.1",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
     },
     {
       "cve_id": "CVE-2026-46532",
@@ -96,17 +46,17 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 9,
+    "total_vulnerabilities": 4,
     "by_severity": {
-      "CRITICAL": 2,
-      "HIGH": 3,
-      "MEDIUM": 4,
+      "CRITICAL": 0,
+      "HIGH": 2,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }
