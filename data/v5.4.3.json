@@ -1,7 +1,7 @@
 {
   "release_version": "v5.4.3",
-  "scan_date": "2026-07-15T00:47:33.524572Z",
-  "tool_version": "1.2.0",
+  "scan_date": "2026-07-16T00:47:57.064399Z",
+  "tool_version": "1.3.0",
   "total_components": 0,
   "vulnerabilities": [
     {
@@ -15,6 +15,26 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
     },
     {
+      "cve_id": "CVE-2026-34875",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
+    },
+    {
+      "cve_id": "CVE-2025-66409",
+      "component": "esp-idf",
+      "component_version": "5.4.3",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
+    },
+    {
       "cve_id": "CVE-2026-34872",
       "component": "mbed_tls",
       "component_version": "3.6.4",
@@ -23,6 +43,36 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+    },
+    {
+      "cve_id": "CVE-2026-34873",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.0 through 4.0.0. Client impersonation can occur while resuming a TLS 1.3 session.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34873"
+    },
+    {
+      "cve_id": "CVE-2025-68473",
+      "component": "esp-idf",
+      "component_version": "5.4.3",
+      "severity": "HIGH",
+      "score": "8.6",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the ESP-IDF Bluetooth host stack (BlueDroid), the function bta_dm_sdp_result() used a fixed-size array uuid_list[32][MAX_UUID_SIZE] to store discovered service UUIDs during the SDP (Service Discovery Protocol) process. On modern Bluetooth devices, it is possible for the number of available services to exceed this fixed limit (32). In such cases, if more than 32 services are discovered, subsequent writes to uuid_list could exceed the bounds of the array, resulting in a potential out-of-bounds write condition.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68473"
+    },
+    {
+      "cve_id": "CVE-2026-25532",
+      "component": "esp-idf",
+      "component_version": "5.4.3",
+      "severity": "HIGH",
+      "score": "8.0",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.2, 5.4.3, 5.3.4, 5.2.6, and 5.1.6, a vulnerability exists in the WPS (Wi-Fi Protected Setup) Enrollee implementation where malformed EAP-WSC packets with truncated payloads can cause integer underflow during fragment length calculation. When processing EAP-Expanded (WSC) messages, the code computes frag_len by subtracting header sizes from the total packet length. If an attacker sends a packet where the EAP Length field covers only the header and flags but omits the expected payload (such as the 2-byte Message Length field when WPS_MSG_FLAG_LEN is set), frag_len becomes negative. This negative value is then implicitly cast to size_t when passed to wpabuf_put_data(), resulting in a very large unsigned value. This issue has been patched in versions 5.5.3, 5.4.4, 5.3.5, 5.2.7, and 5.1.7.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25532"
     },
     {
       "cve_id": "CVE-2026-25835",
@@ -35,6 +85,46 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
     },
     {
+      "cve_id": "CVE-2025-68474",
+      "component": "esp-idf",
+      "component_version": "5.4.3",
+      "severity": "HIGH",
+      "score": "7.6",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the avrc_vendor_msg() function of the ESP-IDF BlueDroid AVRCP stack, the allocated buffer size was validated using AVRC_MIN_CMD_LEN (20 bytes). However, the actual fixed header data written before the vendor payload exceeds this value. This totals 29 bytes written before p_msg->p_vendor_data is copied. Using the old AVRC_MIN_CMD_LEN could allow an out-of-bounds write if vendor_len approaches the buffer limit. For commands where vendor_len is large, the original buffer allocation may be insufficient, causing writes beyond the allocated memory. This can lead to memory corruption, crashes, or other undefined behavior. The overflow could be larger when assertions are disabled.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68474"
+    },
+    {
+      "cve_id": "CVE-2026-25833",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Mbed TLS 3.5.0 to 3.6.5 fixed in 3.6.6 and 4.1.0 has a buffer overflow in the x509_inet_pton_ipv6() function",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25833"
+    },
+    {
+      "cve_id": "CVE-2026-34874",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
+    },
+    {
+      "cve_id": "CVE-2026-34876",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
+    },
+    {
       "cve_id": "CVE-2026-34871",
       "component": "mbed_tls",
       "component_version": "3.6.4",
@@ -43,6 +133,16 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
+    },
+    {
+      "cve_id": "CVE-2026-25834",
+      "component": "mbed_tls",
+      "component_version": "3.6.4",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
     },
     {
       "cve_id": "CVE-2026-25507",
@@ -65,16 +165,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25508"
     },
     {
-      "cve_id": "CVE-2026-25532",
-      "component": "esp-idf",
-      "component_version": "5.4.3",
-      "severity": "MEDIUM",
-      "score": "6.3",
-      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.2, 5.4.3, 5.3.4, 5.2.6, and 5.1.6, a vulnerability exists in the WPS (Wi-Fi Protected Setup) Enrollee implementation where malformed EAP-WSC packets with truncated payloads can cause integer underflow during fragment length calculation. When processing EAP-Expanded (WSC) messages, the code computes frag_len by subtracting header sizes from the total packet length. If an attacker sends a packet where the EAP Length field covers only the header and flags but omits the expected payload (such as the 2-byte Message Length field when WPS_MSG_FLAG_LEN is set), frag_len becomes negative. This negative value is then implicitly cast to size_t when passed to wpabuf_put_data(), resulting in a very large unsigned value. This issue has been patched in versions 5.5.3, 5.4.4, 5.3.5, 5.2.7, and 5.1.7.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25532"
-    },
-    {
       "cve_id": "CVE-2025-54764",
       "component": "mbed_tls",
       "component_version": "3.6.4",
@@ -83,16 +173,6 @@
       "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "Mbed TLS before 3.6.5 allows a local timing attack against certain RSA operations, and direct calls to mbedtls_mpi_mod_inv or mbedtls_mpi_gcd.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
-    },
-    {
-      "cve_id": "CVE-2025-68474",
-      "component": "esp-idf",
-      "component_version": "5.4.3",
-      "severity": "MEDIUM",
-      "score": "6.1",
-      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the avrc_vendor_msg() function of the ESP-IDF BlueDroid AVRCP stack, the allocated buffer size was validated using AVRC_MIN_CMD_LEN (20 bytes). However, the actual fixed header data written before the vendor payload exceeds this value. This totals 29 bytes written before p_msg->p_vendor_data is copied. Using the old AVRC_MIN_CMD_LEN could allow an out-of-bounds write if vendor_len approaches the buffer limit. For commands where vendor_len is large, the original buffer allocation may be insufficient, causing writes beyond the allocated memory. This can lead to memory corruption, crashes, or other undefined behavior. The overflow could be larger when assertions are disabled.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68474"
     },
     {
       "cve_id": "CVE-2025-59438",
@@ -113,35 +193,15 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
-    },
-    {
-      "cve_id": "CVE-2025-66409",
-      "component": "esp-idf",
-      "component_version": "5.4.3",
-      "severity": "LOW",
-      "score": "2.7",
-      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
-    },
-    {
-      "cve_id": "CVE-2025-68473",
-      "component": "esp-idf",
-      "component_version": "5.4.3",
-      "severity": "NONE",
-      "score": "0.0",
-      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the ESP-IDF Bluetooth host stack (BlueDroid), the function bta_dm_sdp_result() used a fixed-size array uuid_list[32][MAX_UUID_SIZE] to store discovered service UUIDs during the SDP (Service Discovery Protocol) process. On modern Bluetooth devices, it is possible for the number of available services to exceed this fixed limit (32). In such cases, if more than 32 services are discovered, subsequent writes to uuid_list could exceed the bounds of the array, resulting in a potential out-of-bounds write condition.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68473"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 13,
+    "total_vulnerabilities": 19,
     "by_severity": {
-      "CRITICAL": 2,
-      "HIGH": 1,
-      "MEDIUM": 8,
-      "LOW": 1
+      "CRITICAL": 5,
+      "HIGH": 7,
+      "MEDIUM": 7,
+      "LOW": 0
     }
   },
   "metadata": {

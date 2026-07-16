@@ -1,9 +1,19 @@
 {
   "release_version": "v5.1.3",
-  "scan_date": "2026-07-15T00:32:42.178937Z",
-  "tool_version": "1.2.0",
+  "scan_date": "2026-07-16T00:53:49.483210Z",
+  "tool_version": "1.3.0",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2025-47917",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Mbed TLS before 3.6.4 allows a use-after-free in certain situations of applications that are developed in accordance with the documentation. The function mbedtls_x509_string_to_names() takes a head argument that is documented as an output argument. The documentation does not suggest that the function will free that pointer; however, the function does call mbedtls_asn1_free_named_data_list() on that argument, which performs a deep free(). As a result, application code that uses this function (relying only on documented behavior) is likely to still hold pointers to the memory blocks that were freed, resulting in a high risk of use-after-free or double-free. In particular, the two sample programs x509/cert_write and x509/cert_req are affected (use-after-free if the san string contains more than one DN).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-47917"
+    },
     {
       "cve_id": "CVE-2026-34877",
       "component": "mbed_tls",
@@ -13,6 +23,46 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "An issue was discovered in Mbed TLS versions from 2.19.0 up to 3.6.5, Mbed TLS 4.0.0. Insufficient protection of serialized SSL context or session structures allows an attacker who can modify the serialized structures to induce memory corruption, leading to arbitrary code execution. This is caused by Incorrect Use of Privileged APIs.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
+    },
+    {
+      "cve_id": "CVE-2024-45159",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.1. With TLS 1.3, when a server enables optional authentication of the client, if the client-provided certificate does not have appropriate values in if keyUsage or extKeyUsage extensions, then the return value of mbedtls_ssl_get_verify_result() would incorrectly have the MBEDTLS_X509_BADCERT_KEY_USAGE and MBEDTLS_X509_BADCERT_KEY_USAGE bits clear. As a result, an attacker that had a certificate valid for uses other than TLS client authentication would nonetheless be able to use it for TLS client authentication. Only TLS 1.3 servers were affected, and only with optional authentication (with required authentication, the handshake would be aborted with a fatal alert).",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-45159"
+    },
+    {
+      "cve_id": "CVE-2024-49195",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Mbed TLS 3.5.x through 3.6.x before 3.6.2 has a buffer underrun in pkwrite when writing an opaque key pair",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-49195"
+    },
+    {
+      "cve_id": "CVE-2026-34875",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
+    },
+    {
+      "cve_id": "CVE-2025-66409",
+      "component": "esp-idf",
+      "component_version": "5.1.3",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
     },
     {
       "cve_id": "CVE-2026-34872",
@@ -25,22 +75,52 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
     },
     {
-      "cve_id": "CVE-2025-47917",
+      "cve_id": "CVE-2024-30166",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+      "description": "In Mbed TLS 3.3.0 through 3.5.2 before 3.6.0, a malicious client can cause information disclosure or a denial of service because of a stack buffer over-read (of less than 256 bytes) in a TLS 1.3 server via a TLS 3.1 ClientHello.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-30166"
+    },
+    {
+      "cve_id": "CVE-2026-34873",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.0 through 4.0.0. Client impersonation can occur while resuming a TLS 1.3 session.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34873"
+    },
+    {
+      "cve_id": "CVE-2025-55297",
+      "component": "esp-idf",
+      "component_version": "5.1.3",
+      "severity": "HIGH",
+      "score": "8.8",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. The BluFi example bundled in ESP-IDF was vulnerable to memory overflows in two areas: Wi-Fi credential handling and Diffie\u2013Hellman key exchange. This vulnerability is fixed in 5.4.1, 5.3.3, 5.1.6, and 5.0.9.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-55297"
+    },
+    {
+      "cve_id": "CVE-2024-28960",
       "component": "mbed_tls",
       "component_version": "3.5.0",
       "severity": "HIGH",
-      "score": "8.9",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:H/A:H",
-      "description": "Mbed TLS before 3.6.4 allows a use-after-free in certain situations of applications that are developed in accordance with the documentation. The function mbedtls_x509_string_to_names() takes a head argument that is documented as an output argument. The documentation does not suggest that the function will free that pointer; however, the function does call mbedtls_asn1_free_named_data_list() on that argument, which performs a deep free(). As a result, application code that uses this function (relying only on documented behavior) is likely to still hold pointers to the memory blocks that were freed, resulting in a high risk of use-after-free or double-free. In particular, the two sample programs x509/cert_write and x509/cert_req are affected (use-after-free if the san string contains more than one DN).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-47917"
+      "score": "8.2",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+      "description": "An issue was discovered in Mbed TLS 2.18.0 through 2.28.x before 2.28.8 and 3.x before 3.6.0, and Mbed Crypto. The PSA Crypto API mishandles shared memory.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28960"
     },
     {
       "cve_id": "CVE-2024-28115",
       "component": "freertos",
       "component_version": "10.4.3",
       "severity": "HIGH",
-      "score": "8.8",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+      "score": "7.8",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
       "description": "FreeRTOS is a real-time operating system for microcontrollers. FreeRTOS Kernel versions through 10.6.1 do not sufficiently protect against local privilege escalation via Return Oriented Programming techniques should a vulnerability exist that allows code injection and execution. These issues affect ARMv7-M MPU ports, and ARMv8-M ports with Memory Protected Unit (MPU) support enabled (i.e. `configENABLE_MPU` set to 1). These issues are fixed in version 10.6.2 with a new MPU wrapper. ",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28115"
     },
@@ -85,6 +165,66 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-52353"
     },
     {
+      "cve_id": "CVE-2025-48965",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigger conflicting data with val.p of NULL but val.len greater than zero.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-48965"
+    },
+    {
+      "cve_id": "CVE-2024-23744",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "An issue was discovered in Mbed TLS 3.5.1. There is persistent handshake denial if a client sends a TLS 1.3 ClientHello without extensions.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23744"
+    },
+    {
+      "cve_id": "CVE-2024-23775",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Integer Overflow vulnerability in Mbed TLS 2.x before 2.28.7 and 3.x before 3.5.2, allows attackers to cause a denial of service (DoS) via mbedtls_x509_set_extension().",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23775"
+    },
+    {
+      "cve_id": "CVE-2026-25833",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Mbed TLS 3.5.0 to 3.6.5 fixed in 3.6.6 and 4.1.0 has a buffer overflow in the x509_inet_pton_ipv6() function",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25833"
+    },
+    {
+      "cve_id": "CVE-2026-34874",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
+    },
+    {
+      "cve_id": "CVE-2026-34876",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
+    },
+    {
       "cve_id": "CVE-2026-34871",
       "component": "mbed_tls",
       "component_version": "3.5.0",
@@ -93,6 +233,36 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
+    },
+    {
+      "cve_id": "CVE-2024-28755",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+      "description": "An issue was discovered in Mbed TLS 3.5.x before 3.6.0. When an SSL context was reset with the mbedtls_ssl_session_reset() API, the maximum TLS version to be negotiated was not restored to the configured one. An attacker was able to prevent an Mbed TLS server from establishing any TLS 1.3 connection, potentially resulting in a Denial of Service or forced version downgrade from TLS 1.3 to TLS 1.2.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28755"
+    },
+    {
+      "cve_id": "CVE-2025-49601",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L",
+      "description": "In MbedTLS 3.3.0 before 3.6.4, mbedtls_lms_import_public_key does not check that the input buffer is at least 4 bytes before reading a 32-bit field, allowing a possible out-of-bounds read on truncated input. Specifically, an out-of-bounds read in mbedtls_lms_import_public_key allows context-dependent attackers to trigger a crash or limited adjacent-memory disclosure by supplying a truncated LMS (Leighton-Micali Signature) public-key buffer under four bytes. An LMS public key starts with a 4-byte type indicator. The function mbedtls_lms_import_public_key reads this type indicator before validating the size of its input.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-49601"
+    },
+    {
+      "cve_id": "CVE-2026-25834",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
     },
     {
       "cve_id": "CVE-2025-54764",
@@ -109,10 +279,50 @@
       "component": "esp-idf",
       "component_version": "5.1.3",
       "severity": "MEDIUM",
-      "score": "6.1",
-      "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "score": "5.7",
+      "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "ESP-IDF is the development framework for Espressif SoCs supported on Windows, Linux and macOS. A Time-of-Check to Time-of-Use (TOCTOU) vulnerability was discovered in the implementation of the ESP-IDF bootloader which could allow an attacker with physical access to flash of the device to bypass anti-rollback protection. Anti-rollback prevents rollback to application with security version lower than one programmed in eFuse of chip. This attack can allow to boot past (passive) application partition having lower security version of the same device even in the presence of the flash encryption scheme. The attack requires carefully modifying the flash contents after the anti-rollback checks have been performed by the bootloader (before loading the application). The vulnerability is fixed in 4.4.7 and 5.2.1.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28183"
+    },
+    {
+      "cve_id": "CVE-2023-53154",
+      "component": "cjson",
+      "component_version": "1.7.17",
+      "severity": "MEDIUM",
+      "score": "5.5",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+      "description": "parse_string in cJSON before 1.7.18 has a heap-based buffer over-read via {\"1\":1, with no trailing newline if cJSON_ParseWithLength is called.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-53154"
+    },
+    {
+      "cve_id": "CVE-2024-23170",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.5",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS 2.x before 2.28.7 and 3.x before 3.5.2. There was a timing side channel in RSA private operations. This side channel could be sufficient for a local attacker to recover the plaintext. It requires the attacker to send a large number of messages for decryption, as described in \"Everlasting ROBOT: the Marvin Attack\" by Hubert Kario.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-23170"
+    },
+    {
+      "cve_id": "CVE-2024-28836",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.4",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.x before 3.6.0. When negotiating the TLS version on the server side, it can fall back to the TLS 1.2 implementation of the protocol if it is disabled. If the TLS 1.2 implementation was disabled at build time, a TLS 1.2 client could put a TLS 1.3-only server into an infinite loop processing a TLS 1.2 ClientHello, resulting in a denial of service. If the TLS 1.2 implementation was disabled at runtime, a TLS 1.2 client can successfully establish a TLS 1.2 connection with the server.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-28836"
+    },
+    {
+      "cve_id": "CVE-2025-27809",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.4",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
+      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, on the client side, accepts servers that have trusted certificates for arbitrary hostnames unless the TLS client application calls mbedtls_ssl_set_hostname.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27809"
     },
     {
       "cve_id": "CVE-2025-59438",
@@ -125,16 +335,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-59438"
     },
     {
-      "cve_id": "CVE-2025-55297",
-      "component": "esp-idf",
-      "component_version": "5.1.3",
-      "severity": "MEDIUM",
-      "score": "5.2",
-      "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. The BluFi example bundled in ESP-IDF was vulnerable to memory overflows in two areas: Wi-Fi credential handling and Diffie\u2013Hellman key exchange. This vulnerability is fixed in 5.4.1, 5.3.3, 5.1.6, and 5.0.9.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-55297"
-    },
-    {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
       "component_version": "3.5.0",
@@ -143,6 +343,26 @@
       "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
       "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
+    },
+    {
+      "cve_id": "CVE-2024-45157",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "5.1",
+      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS before 2.28.9 and 3.x before 3.6.1, in which the user-selected algorithm is not used. Unlike previously documented, enabling MBEDTLS_PSA_HMAC_DRBG_MD_TYPE does not cause the PSA subsystem to use HMAC_DRBG: it uses HMAC_DRBG only when MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG and MBEDTLS_CTR_DRBG_C are disabled.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-45157"
+    },
+    {
+      "cve_id": "CVE-2025-49600",
+      "component": "mbed_tls",
+      "component_version": "3.5.0",
+      "severity": "MEDIUM",
+      "score": "4.9",
+      "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N",
+      "description": "In MbedTLS 3.3.0 before 3.6.4, mbedtls_lms_verify may accept invalid signatures if hash computation fails and internal errors go unchecked, enabling LMS (Leighton-Micali Signature) forgery in a fault scenario. Specifically, unchecked return values in mbedtls_lms_verify allow an attacker (who can induce a hardware hash accelerator fault) to bypass LMS signature verification by reusing stale stack data, resulting in acceptance of an invalid signature. In mbedtls_lms_verify, the return values of the internal Merkle tree functions create_merkle_leaf_value and create_merkle_internal_value are not checked. These functions return an integer that indicates whether the call succeeded or not. If a failure occurs, the output buffer (Tc_candidate_root_node) may remain uninitialized, and the result of the signature verification is unpredictable. When the software implementation of SHA-256 is used, these functions will not fail. However, with hardware-accelerated hashing, an attacker could use fault injection against the accelerator to bypass verification.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-49600"
     },
     {
       "cve_id": "CVE-2025-52497",
@@ -155,43 +375,23 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-52497"
     },
     {
-      "cve_id": "CVE-2025-48965",
+      "cve_id": "CVE-2025-27810",
       "component": "mbed_tls",
       "component_version": "3.5.0",
       "severity": "MEDIUM",
-      "score": "4.0",
-      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:N/A:L",
-      "description": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigger conflicting data with val.p of NULL but val.len greater than zero.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-48965"
-    },
-    {
-      "cve_id": "CVE-2023-53154",
-      "component": "cjson",
-      "component_version": "1.7.17",
-      "severity": "LOW",
-      "score": "2.9",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
-      "description": "parse_string in cJSON before 1.7.18 has a heap-based buffer over-read via {\"1\":1, with no trailing newline if cJSON_ParseWithLength is called.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-53154"
-    },
-    {
-      "cve_id": "CVE-2025-66409",
-      "component": "esp-idf",
-      "component_version": "5.1.3",
-      "severity": "LOW",
-      "score": "2.7",
-      "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, when AVRCP is enabled on ESP32, receiving a malformed VENDOR DEPENDENT command from a peer device can cause the Bluetooth stack to access memory before validating the command buffer length. This may lead to an out-of-bounds read, potentially exposing unintended memory content or causing unexpected behavior.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66409"
+      "score": "4.8",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+      "description": "Mbed TLS before 2.28.10 and 3.x before 3.6.3, in some cases of failed memory allocation or hardware errors, uses uninitialized stack memory to compose the TLS Finished message, potentially leading to authentication bypasses such as replays.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-27810"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 18,
+    "total_vulnerabilities": 38,
     "by_severity": {
-      "CRITICAL": 2,
-      "HIGH": 6,
-      "MEDIUM": 8,
-      "LOW": 2
+      "CRITICAL": 9,
+      "HIGH": 13,
+      "MEDIUM": 16,
+      "LOW": 0
     }
   },
   "metadata": {

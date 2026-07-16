@@ -1,7 +1,7 @@
 {
   "release_version": "v5.5.4",
-  "scan_date": "2026-07-15T00:37:50.258001Z",
-  "tool_version": "1.2.0",
+  "scan_date": "2026-07-16T00:45:13.351710Z",
+  "tool_version": "1.3.0",
   "total_components": 0,
   "vulnerabilities": [
     {
@@ -15,14 +15,14 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
     },
     {
-      "cve_id": "CVE-2026-45328",
-      "component": "esp-idf",
-      "component_version": "5.5.4",
+      "cve_id": "CVE-2026-34875",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
       "severity": "CRITICAL",
-      "score": "9.3",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, the esp_tee component exposes secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c that bridge calls from the user application (i.e. the REE) to TEE-protected hardware peripherals (AES, SHA, ECC, HMAC, SPI, MMU, WDT) and to the security feature like attestation, OTA updates, secure storage. This issue has been patched in versions 5.5.5 and 6.0.1.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45328"
+      "score": "9.8",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
     },
     {
       "cve_id": "CVE-2026-34872",
@@ -33,6 +33,26 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
       "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
+    },
+    {
+      "cve_id": "CVE-2026-34873",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
+      "severity": "CRITICAL",
+      "score": "9.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.5.0 through 4.0.0. Client impersonation can occur while resuming a TLS 1.3 session.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34873"
+    },
+    {
+      "cve_id": "CVE-2026-45328",
+      "component": "esp-idf",
+      "component_version": "5.5.4",
+      "severity": "HIGH",
+      "score": "8.8",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, the esp_tee component exposes secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c that bridge calls from the user application (i.e. the REE) to TEE-protected hardware peripherals (AES, SHA, ECC, HMAC, SPI, MMU, WDT) and to the security feature like attestation, OTA updates, secure storage. This issue has been patched in versions 5.5.5 and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45328"
     },
     {
       "cve_id": "CVE-2026-25835",
@@ -55,14 +75,34 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45541"
     },
     {
-      "cve_id": "CVE-2026-45329",
-      "component": "esp-idf",
-      "component_version": "5.5.4",
+      "cve_id": "CVE-2026-25833",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
       "severity": "HIGH",
-      "score": "7.1",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, several ESP-TEE secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c validated only some of the caller-supplied pointer arguments, leaving input pointer arguments unchecked. Because the underlying TEE-protected hardware peripherals (e.g., ECC, SHA, SPI) run in RISC-V machine mode (M-mode) with full address-space access, a caller could supply pointers into TEE-exclusive memory as inputs, causing the peripheral to read TEE memory and return results derived from it to the REE. Depending on the wrapper, the result contains raw bytes from TEE memory, a computed function of TEE memory recoverable through repeated calls, or a single bit per call that forms an oracle for incremental disclosure of TEE-resident sensitive data. This issue has been patched in versions 5.5.5 and 6.0.1.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45329"
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "Mbed TLS 3.5.0 to 3.6.5 fixed in 3.6.6 and 4.1.0 has a buffer overflow in the x509_inet_pton_ipv6() function",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25833"
+    },
+    {
+      "cve_id": "CVE-2026-34874",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
+    },
+    {
+      "cve_id": "CVE-2026-34876",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
+      "severity": "HIGH",
+      "score": "7.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
     },
     {
       "cve_id": "CVE-2026-45542",
@@ -95,6 +135,26 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45160"
     },
     {
+      "cve_id": "CVE-2026-45329",
+      "component": "esp-idf",
+      "component_version": "5.5.4",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N",
+      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.4 and 6.0, several ESP-TEE secure-service wrappers in esp_secure_services.c and esp_secure_services_iram.c validated only some of the caller-supplied pointer arguments, leaving input pointer arguments unchecked. Because the underlying TEE-protected hardware peripherals (e.g., ECC, SHA, SPI) run in RISC-V machine mode (M-mode) with full address-space access, a caller could supply pointers into TEE-exclusive memory as inputs, causing the peripheral to read TEE memory and return results derived from it to the REE. Depending on the wrapper, the result contains raw bytes from TEE memory, a computed function of TEE memory recoverable through repeated calls, or a single bit per call that forms an oracle for incremental disclosure of TEE-resident sensitive data. This issue has been patched in versions 5.5.5 and 6.0.1.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45329"
+    },
+    {
+      "cve_id": "CVE-2026-25834",
+      "component": "mbed_tls",
+      "component_version": "3.6.5",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
+    },
+    {
       "cve_id": "CVE-2025-66442",
       "component": "mbed_tls",
       "component_version": "3.6.5",
@@ -106,11 +166,11 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 10,
+    "total_vulnerabilities": 16,
     "by_severity": {
-      "CRITICAL": 3,
-      "HIGH": 4,
-      "MEDIUM": 3,
+      "CRITICAL": 4,
+      "HIGH": 7,
+      "MEDIUM": 5,
       "LOW": 0
     }
   },
