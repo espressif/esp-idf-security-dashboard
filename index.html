@@ -504,6 +504,17 @@
             margin-bottom: 0.5rem;
         }
 
+        .vuln-id a,
+        .cve-cross-ref-item h5 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .vuln-id a:hover,
+        .cve-cross-ref-item h5 a:hover {
+            text-decoration: underline;
+        }
+
         .vuln-component {
             color: var(--dark-gray);
             font-size: 0.9rem;
@@ -1392,7 +1403,7 @@
                 
                 return `
                     <div class="vuln-item ${severityClass}">
-                        <div class="vuln-id">${vuln.cve_id || 'Unknown CVE'}</div>
+                        <div class="vuln-id">${cveLink(vuln.cve_id, vuln.link)}</div>
                         <div class="vuln-component">Component: ${vuln.component || 'Unknown'} ${vuln.component_version || ''}</div>
                         <div class="vuln-description">${vuln.description || 'No description available'}</div>
                         ${vuln.fixed_versions ? `<div class="vuln-component">Component fixed in: ${vuln.fixed_versions.join(', ')}</div>` : ''}
@@ -1557,7 +1568,7 @@
                 
                 html += `
                     <div class="cve-cross-ref-item">
-                        <h5>${cveId} 
+                        <h5>${cveLink(cveId, vuln.link)}
                             <span class="severity-badge ${(vuln.severity || 'unknown').toLowerCase()}">
                                 ${vuln.severity || 'Unknown'}
                             </span>
@@ -1614,6 +1625,12 @@
             
             // Store for use by other functions
             window.cveAnalysis = cveMap;
+        }
+
+        function cveLink(cveId, link) {
+            if (!cveId) return 'Unknown CVE';
+            const href = link || `https://nvd.nist.gov/vuln/detail/${encodeURIComponent(cveId)}`;
+            return `<a href="${href}" target="_blank" rel="noopener noreferrer">${cveId}</a>`;
         }
 
         function getIDFFixInfo(cveId, currentVersion) {
@@ -1738,7 +1755,7 @@
                     
                     return `
                         <div class="vuln-item ${severityClass}" style="margin-bottom: 1rem;">
-                            <div class="vuln-id">${cveId}</div>
+                            <div class="vuln-id">${cveLink(cveId, cveData.link)}</div>
                             <div class="vuln-component">Component: ${cveData.component || 'Unknown'}</div>
                             <div class="vuln-description" style="margin-bottom: 1rem;">${cveData.description || 'No description'}</div>
                             
