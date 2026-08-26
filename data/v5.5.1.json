@@ -1,6 +1,6 @@
 {
   "release_version": "v5.5.1",
-  "scan_date": "2026-08-25T00:19:03.972586Z",
+  "scan_date": "2026-08-26T00:29:14.489455Z",
   "tool_version": "1.3.1",
   "total_components": 0,
   "vulnerabilities": [
@@ -23,6 +23,16 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
       "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
+    },
+    {
+      "cve_id": "CVE-2026-77234",
+      "component": "freertos",
+      "component_version": "10.5.1",
+      "severity": "CRITICAL",
+      "score": "9.3",
+      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "Improper input validation in FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports to execute code in privileged kernel context. To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77234"
     },
     {
       "cve_id": "CVE-2025-66409",
@@ -63,6 +73,36 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
       "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.5.1, 5.4.3, 5.3.4, 5.2.6, 5.1.6, and earlier, in the ESP-IDF Bluetooth host stack (BlueDroid), the function bta_dm_sdp_result() used a fixed-size array uuid_list[32][MAX_UUID_SIZE] to store discovered service UUIDs during the SDP (Service Discovery Protocol) process. On modern Bluetooth devices, it is possible for the number of available services to exceed this fixed limit (32). In such cases, if more than 32 services are discovered, subsequent writes to uuid_list could exceed the bounds of the array, resulting in a potential out-of-bounds write condition.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-68473"
+    },
+    {
+      "cve_id": "CVE-2026-77237",
+      "component": "freertos",
+      "component_version": "10.5.1",
+      "severity": "HIGH",
+      "score": "8.4",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:H",
+      "description": "Missing queue-set type validation in xQueueAddToSet() in the FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports with configUSE_QUEUE_SETS=1 to read privileged kernel memory.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77237"
+    },
+    {
+      "cve_id": "CVE-2026-77235",
+      "component": "freertos",
+      "component_version": "10.5.1",
+      "severity": "HIGH",
+      "score": "8.3",
+      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:H/SC:N/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "Missing privilege verification in the secure context cleanup handler in FreeRTOS-Kernel before 11.3.1 might allow local users to cause a use-after-free condition in secure-world memory via the SVC handler for secure context deallocation.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77235"
+    },
+    {
+      "cve_id": "CVE-2026-77236",
+      "component": "freertos",
+      "component_version": "10.5.1",
+      "severity": "HIGH",
+      "score": "8.3",
+      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:H/SC:N/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+      "description": "Missing minimum size validation in secure context allocation in FreeRTOS-Kernel before 11.3.1 might allow local users to corrupt secure-world heap metadata via an out-of-bounds write with an undersized stack size parameter.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77236"
     },
     {
       "cve_id": "CVE-2026-25835",
@@ -166,10 +206,10 @@
     }
   ],
   "summary": {
-    "total_vulnerabilities": 16,
+    "total_vulnerabilities": 20,
     "by_severity": {
-      "CRITICAL": 5,
-      "HIGH": 6,
+      "CRITICAL": 6,
+      "HIGH": 9,
       "MEDIUM": 5,
       "LOW": 0
     }
