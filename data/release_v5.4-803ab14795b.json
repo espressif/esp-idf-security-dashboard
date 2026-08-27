@@ -1,29 +1,9 @@
 {
-  "release_version": "v5.5.3",
-  "scan_date": "2026-08-27T01:52:45.127585Z",
+  "release_version": "release/v5.4-803ab14795b",
+  "scan_date": "2026-08-27T01:57:34.913900Z",
   "tool_version": "1.3.1",
   "total_components": 0,
   "vulnerabilities": [
-    {
-      "cve_id": "CVE-2026-34877",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS versions from 2.19.0 up to 3.6.5, Mbed TLS 4.0.0. Insufficient protection of serialized SSL context or session structures allows an attacker who can modify the serialized structures to induce memory corruption, leading to arbitrary code execution. This is caused by Incorrect Use of Privileged APIs.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34877"
-    },
-    {
-      "cve_id": "CVE-2026-34875",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.8",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-      "description": "An issue was discovered in Mbed TLS through 3.6.5 and TF-PSA-Crypto 1.0.0. A buffer overflow can occur in public key export for FFDH keys.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34875"
-    },
     {
       "cve_id": "CVE-2026-77234",
       "component": "freertos",
@@ -35,24 +15,14 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77234"
     },
     {
-      "cve_id": "CVE-2026-34872",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.5.x and 3.6.x through 3.6.5 and TF-PSA-Crypto 1.0. There is a lack of contributory behavior in FFDH due to improper input validation. Using finite-field Diffie-Hellman, the other party can force the shared secret into a small set of values (lack of contributory behavior). This is a problem for protocols that depend on contributory behavior (which is not the case for TLS). The attack can be carried by the peer, or depending on the protocol by an active network attacker (person in the middle).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34872"
-    },
-    {
-      "cve_id": "CVE-2026-34873",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "CRITICAL",
-      "score": "9.1",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.5.0 through 4.0.0. Client impersonation can occur while resuming a TLS 1.3 session.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34873"
+      "cve_id": "CVE-2026-45813",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
+      "severity": "HIGH",
+      "score": "8.8",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Out-of-bounds Write, Integer Underflow (Wrap or Wraparound) vulnerability in Apache NimBLE BASS service.\nImproper validation when parsing BASS service\u00a0 \"Add Source\" and \"Modify Source\" operation PDU could results in stack buffer overflow or arbitrary out-of-bound read.\n\n\nThis can be triggered by nearby devices over Bluetooth connection, however pairing is required prior to accessing BASS service, which depending on device configuration may or may not require user action.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45813"
     },
     {
       "cve_id": "CVE-2026-67215",
@@ -105,16 +75,6 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-16554"
     },
     {
-      "cve_id": "CVE-2026-25835",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.7",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835"
-    },
-    {
       "cve_id": "CVE-2026-67216",
       "component": "cjson",
       "component_version": "1.7.19",
@@ -123,36 +83,6 @@
       "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
       "description": "cJSON through 1.7.19 contains an inefficient algorithmic complexity flaw in cJSON_Compare(). When comparing objects, the function recurses into each shared subtree twice, once in each direction, with no depth guard, making the running time exponential in nesting depth. A small, deeply nested document of a few hundred bytes (depth around 40) compared for equality consumes hours of CPU, and the cost roughly doubles with each additional level of nesting. An application that calls cJSON_Compare() on attacker-influenced JSON that is structurally equal to a reference document is exposed to a denial-of-service condition.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-67216"
-    },
-    {
-      "cve_id": "CVE-2026-25833",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-      "description": "Mbed TLS 3.5.0 to 3.6.5 fixed in 3.6.6 and 4.1.0 has a buffer overflow in the x509_inet_pton_ipv6() function",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25833"
-    },
-    {
-      "cve_id": "CVE-2026-34874",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-      "description": "An issue was discovered in Mbed TLS through 3.6.5 and 4.x through 4.0.0. There is a NULL pointer dereference in distinguished name parsing that allows an attacker to write to address 0.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34874"
-    },
-    {
-      "cve_id": "CVE-2026-34876",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "HIGH",
-      "score": "7.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "An issue was discovered in Mbed TLS 3.x before 3.6.6. An out-of-bounds read vulnerability in mbedtls_ccm_finish() in library/ccm.c allows attackers to obtain adjacent CCM context data via invocation of the multipart CCM API with an oversized tag_len parameter. This is caused by missing validation of the tag_len parameter against the size of the internal 16-byte authentication buffer. The issue affects the public multipart CCM API in Mbed TLS 3.x, where mbedtls_ccm_finish() can be invoked directly by applications. In Mbed TLS 4.x versions prior to the fix, the same missing validation exists in the internal implementation; however, the function is not exposed as part of the public API. Exploitation requires application-level invocation of the multipart CCM API.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34876"
     },
     {
       "cve_id": "CVE-2026-67217",
@@ -165,58 +95,28 @@
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-67217"
     },
     {
-      "cve_id": "CVE-2026-34871",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "MEDIUM",
-      "score": "6.7",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
-      "description": "An issue was discovered in Mbed TLS before 3.6.6 and 4.x before 4.1.0 and TF-PSA-Crypto before 1.1.0. There is a Predictable Seed in a Pseudo-Random Number Generator (PRNG).",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-34871"
-    },
-    {
-      "cve_id": "CVE-2026-25834",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
+      "cve_id": "CVE-2026-45812",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
       "severity": "MEDIUM",
       "score": "6.5",
-      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
-      "description": "Mbed TLS v3.3.0 up to 3.6.5 and 4.0.0 allows Algorithm Downgrade.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-25834"
-    },
-    {
-      "cve_id": "CVE-2025-66442",
-      "component": "mbed_tls",
-      "component_version": "3.6.5",
-      "severity": "MEDIUM",
-      "score": "5.1",
-      "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-      "description": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442"
-    },
-    {
-      "cve_id": "CVE-2026-46532",
-      "component": "esp-idf",
-      "component_version": "5.5.3",
-      "severity": "MEDIUM",
-      "score": "4.6",
-      "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L",
-      "description": "ESF-IDF is the Espressif Internet of Things (IOT) Development Framework. In versions 5.2.6, 5.3.5, 5.4.4, 5.5.3, and 6.0, an out-of-bounds read exists in the BlueDroid AVRCP vendor-command parser (avrc_pars_vendor_cmd() in components/bt/host/bluedroid/stack/avrc/avrc_pars_tg.c). This issue has been patched in versions 5.2.7, 5.3.6, 5.4.5, 5.5.4, and 6.0.1.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-46532"
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Incorrect Calculation of Buffer Size vulnerability in Apache NimBLE when processing\u00a0Legacy Advertising Report HCI event.\n\nWhen a single HCI advertising report event bundles multiple reports, NimBLE miscalculated the offset to the next report. This can cause the host to read past the end of the buffer and deliver a GAP event with bogus data to the application.\n\nSeverity is low: NimBLE's own controller never batches multiple reports into one event, so this only matters when NimBLE's host is paired with a third-party controller that does.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45812"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 20,
+    "total_vulnerabilities": 10,
     "by_severity": {
-      "CRITICAL": 5,
-      "HIGH": 10,
-      "MEDIUM": 5,
+      "CRITICAL": 1,
+      "HIGH": 7,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
   "metadata": {
     "scanner": "esp-idf-security-dashboard",
-    "scan_method": "git-tag",
+    "scan_method": "git-release-branch",
     "docker_image": null
   }
 }
