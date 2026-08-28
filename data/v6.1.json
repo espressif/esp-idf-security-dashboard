@@ -1,55 +1,14 @@
 {
   "release_version": "v6.1",
-  "scan_date": "2026-08-27T01:39:09.264070Z",
+  "scan_date": "2026-08-28T03:03:16.849363Z",
   "tool_version": "1.3.1",
   "total_components": 0,
-  "vulnerabilities": [
-    {
-      "cve_id": "CVE-2026-77234",
-      "component": "freertos",
-      "component_version": "10.5.1",
-      "severity": "CRITICAL",
-      "score": "9.3",
-      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "Improper input validation in FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports to execute code in privileged kernel context. To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77234"
-    },
-    {
-      "cve_id": "CVE-2026-77237",
-      "component": "freertos",
-      "component_version": "10.5.1",
-      "severity": "HIGH",
-      "score": "8.4",
-      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:H",
-      "description": "Missing queue-set type validation in xQueueAddToSet() in the FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports with configUSE_QUEUE_SETS=1 to read privileged kernel memory.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77237"
-    },
-    {
-      "cve_id": "CVE-2026-77235",
-      "component": "freertos",
-      "component_version": "10.5.1",
-      "severity": "HIGH",
-      "score": "8.3",
-      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:H/SC:N/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "Missing privilege verification in the secure context cleanup handler in FreeRTOS-Kernel before 11.3.1 might allow local users to cause a use-after-free condition in secure-world memory via the SVC handler for secure context deallocation.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77235"
-    },
-    {
-      "cve_id": "CVE-2026-77236",
-      "component": "freertos",
-      "component_version": "10.5.1",
-      "severity": "HIGH",
-      "score": "8.3",
-      "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:H/SC:N/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
-      "description": "Missing minimum size validation in secure context allocation in FreeRTOS-Kernel before 11.3.1 might allow local users to corrupt secure-world heap metadata via an out-of-bounds write with an undersized stack size parameter.\u00a0To remediate this issue, users should upgrade to version\u00a011.3.1 or later.",
-      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-77236"
-    }
-  ],
+  "vulnerabilities": [],
   "summary": {
-    "total_vulnerabilities": 4,
+    "total_vulnerabilities": 0,
     "by_severity": {
-      "CRITICAL": 1,
-      "HIGH": 3,
+      "CRITICAL": 0,
+      "HIGH": 0,
       "MEDIUM": 0,
       "LOW": 0
     }
