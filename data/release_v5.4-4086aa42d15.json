@@ -1,9 +1,19 @@
 {
-  "release_version": "release/v5.2-e717ab43add",
-  "scan_date": "2026-09-01T00:59:35.229205Z",
+  "release_version": "release/v5.4-4086aa42d15",
+  "scan_date": "2026-09-01T01:00:30.467293Z",
   "tool_version": "1.3.1",
   "total_components": 0,
   "vulnerabilities": [
+    {
+      "cve_id": "CVE-2026-45813",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
+      "severity": "HIGH",
+      "score": "8.8",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Out-of-bounds Write, Integer Underflow (Wrap or Wraparound) vulnerability in Apache NimBLE BASS service.\nImproper validation when parsing BASS service\u00a0 \"Add Source\" and \"Modify Source\" operation PDU could results in stack buffer overflow or arbitrary out-of-bound read.\n\n\nThis can be triggered by nearby devices over Bluetooth connection, however pairing is required prior to accessing BASS service, which depending on device configuration may or may not require user action.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45813"
+    },
     {
       "cve_id": "CVE-2026-67215",
       "component": "cjson",
@@ -43,14 +53,24 @@
       "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
       "description": "cJSON through 1.7.19 applies RFC 6902 JSON Patch operations non-atomically in apply_patch() in cJSON_Utils.c. For a replace operation that is missing its value member, or a move operation whose destination path cannot be resolved, the existing target member is detached and deleted before the operation is fully validated, so the target document is mutated while cJSONUtils_ApplyPatches() or cJSONUtils_ApplyPatchesCaseSensitive() returns a failure status. An attacker who can supply the patch document can destroy addressable members of the target document even though the API reports that the patch failed, defeating the all-or-nothing behavior callers rely on to reject bad patches.",
       "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-67217"
+    },
+    {
+      "cve_id": "CVE-2026-45812",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Incorrect Calculation of Buffer Size vulnerability in Apache NimBLE when processing\u00a0Legacy Advertising Report HCI event.\n\nWhen a single HCI advertising report event bundles multiple reports, NimBLE miscalculated the offset to the next report. This can cause the host to read past the end of the buffer and deliver a GAP event with bogus data to the application.\n\nSeverity is low: NimBLE's own controller never batches multiple reports into one event, so this only matters when NimBLE's host is paired with a third-party controller that does.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45812"
     }
   ],
   "summary": {
-    "total_vulnerabilities": 4,
+    "total_vulnerabilities": 6,
     "by_severity": {
       "CRITICAL": 0,
-      "HIGH": 3,
-      "MEDIUM": 1,
+      "HIGH": 4,
+      "MEDIUM": 2,
       "LOW": 0
     }
   },
