@@ -1,0 +1,42 @@
+{
+  "release_version": "release/v6.0-3c5eaa66694",
+  "scan_date": "2026-09-05T00:54:51.281169Z",
+  "tool_version": "1.3.1",
+  "total_components": 0,
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2026-45813",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
+      "severity": "HIGH",
+      "score": "8.8",
+      "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "description": "Out-of-bounds Write, Integer Underflow (Wrap or Wraparound) vulnerability in Apache NimBLE BASS service.\nImproper validation when parsing BASS service\u00a0 \"Add Source\" and \"Modify Source\" operation PDU could results in stack buffer overflow or arbitrary out-of-bound read.\n\n\nThis can be triggered by nearby devices over Bluetooth connection, however pairing is required prior to accessing BASS service, which depending on device configuration may or may not require user action.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45813"
+    },
+    {
+      "cve_id": "CVE-2026-45812",
+      "component": "Apache Mynewt Nimble",
+      "component_version": "1.6.0",
+      "severity": "MEDIUM",
+      "score": "6.5",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "description": "Incorrect Calculation of Buffer Size vulnerability in Apache NimBLE when processing\u00a0Legacy Advertising Report HCI event.\n\nWhen a single HCI advertising report event bundles multiple reports, NimBLE miscalculated the offset to the next report. This can cause the host to read past the end of the buffer and deliver a GAP event with bogus data to the application.\n\nSeverity is low: NimBLE's own controller never batches multiple reports into one event, so this only matters when NimBLE's host is paired with a third-party controller that does.\n\nThis issue affects Apache NimBLE: through 1.9.0.\n\nUsers are recommended to upgrade to version 1.10.0, which fixes the issue.",
+      "link": "https://nvd.nist.gov/vuln/detail/CVE-2026-45812"
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 2,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 1,
+      "MEDIUM": 1,
+      "LOW": 0
+    }
+  },
+  "metadata": {
+    "scanner": "esp-idf-security-dashboard",
+    "scan_method": "git-release-branch",
+    "docker_image": null
+  }
+}
