@@ -1,0 +1,21 @@
+{
+  "release_version": "master-ab95e70748f",
+  "scan_date": "2026-10-13T01:02:23.467743Z",
+  "tool_version": "1.4.0",
+  "total_components": 0,
+  "vulnerabilities": [],
+  "summary": {
+    "total_vulnerabilities": 0,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0
+    }
+  },
+  "metadata": {
+    "scanner": "esp-idf-security-dashboard",
+    "scan_method": "git-release-branch",
+    "docker_image": null
+  }
+}
