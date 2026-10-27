@@ -1,7 +1,7 @@
 {
   "release_version": "v5.0.6",
-  "scan_date": "2026-10-26T00:40:24.137089Z",
-  "tool_version": "1.4.0",
+  "scan_date": "2026-10-27T00:32:14.411000Z",
+  "tool_version": "1.5.0",
   "total_components": 0,
   "vulnerabilities": [
     {
